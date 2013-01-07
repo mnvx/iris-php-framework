@@ -1,0 +1,31 @@
+html, body, #wrap {
+  height: 100%;
+  padding:0;
+}
+
+.menu {
+  max-width: 200px;
+}
+
+body > #wrap {
+  height: auto; 
+  min-height: 100%;
+}
+
+#main {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.main {
+  border: none;
+  padding-bottom: 0;
+}
+
+#footer {
+  position: relative;
+	margin-top: -60px; /* отрицательное значение высоты футера */
+	height: 60px;
+	clear: both;
+  background-color: #1b1b1b;
+}

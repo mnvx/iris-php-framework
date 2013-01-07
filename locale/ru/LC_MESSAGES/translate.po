@@ -1,0 +1,227 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Framework\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-01-05 09:08+0300\n"
+"PO-Revision-Date: 2013-01-05 09:09+0300\n"
+"Last-Translator: mnv <mnvx@yandex.ru>\n"
+"Language-Team:  <mnvx@yandex.ru>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-Country: RUSSIAN FEDERATION\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: /home/mnv/www/ex/framework\n"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:4
+msgid "Format"
+msgstr "Формат"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:5
+msgid "Desktop"
+msgstr "Компьютер"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:6
+msgid "Mobile"
+msgstr "Телефон"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:7
+msgid "Tablet"
+msgstr "Планшет"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:9
+msgid "Language"
+msgstr "Язык"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:10
+msgid "Russian"
+msgstr "Русский"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:11
+msgid "English"
+msgstr "English"
+
+#: /home/mnv/www/ex/framework/temp/translate.php:12
+msgid "Deutsch"
+msgstr "Deutsch"
+
+#: /home/mnv/www/ex/framework/core/db.php:17
+msgid "Database info was not found in query"
+msgstr ""
+
+#: /home/mnv/www/ex/framework/core/db.php:33
+msgid "Error when preparing the query"
+msgstr ""
+
+#: /home/mnv/www/ex/framework/core/db.php:38
+msgid "Error in query"
+msgstr ""
+
+#: /home/mnv/www/ex/framework/core/db.php:46
+msgid "Error when executing the query"
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:69
+msgid "Error! All fields are required."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:73
+#: /home/mnv/www/ex/framework/lib/models/user.php:146
+msgid "Error! Passwords do not match."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:77
+#: /home/mnv/www/ex/framework/lib/models/user.php:132
+msgid "Error! Please enter a valid e-mail address."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:90
+msgid "Error! E-mail address is already in use."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:101
+msgid "Error! Can't create the user."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:104
+msgid "User successfully added."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:156
+msgid "Info successfully updated."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:175
+msgid "There was a problem, please try again."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:192
+msgid "Error! Both E-mail and Password are required to login."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:228
+msgid "Login Successful!"
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:232
+msgid "Error! Password is incorrect."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:236
+msgid "Error! User does not exist."
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:251
+#: /home/mnv/www/ex/framework/lib/models/user.php:258
+msgid "Authorization is necessary"
+msgstr "Необходима авторизация"
+
+#: /home/mnv/www/ex/framework/lib/models/user.php:304
+msgid "You have been logged out!"
+msgstr "Вы вышли из системы"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:25
+msgid "Logged in as"
+msgstr "Пользователь"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:26
+msgid "Logout"
+msgstr "Выход"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:28
+#: /home/mnv/www/ex/framework/lib/views/user/login-m.html.php:2
+#: /home/mnv/www/ex/framework/lib/views/user/login-m.html.php:18
+msgid "Login"
+msgstr "Вход"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:29
+msgid "or"
+msgstr "или"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:30
+msgid "Signup"
+msgstr "Регистрация"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:67
+msgid "About"
+msgstr "О сервисе"
+
+#: /home/mnv/www/ex/framework/lib/views/layout-d.html.php:68
+msgid "Terms of Service"
+msgstr "Оферта"
+
+#: /home/mnv/www/ex/framework/lib/views/options/index-d.html.php:2
+#: /home/mnv/www/ex/framework/lib/views/options/index-m.html.php:2
+msgid "Options"
+msgstr "Параметры"
+
+#: /home/mnv/www/ex/framework/lib/views/user/login-m.html.php:4
+msgid "Please login to view your order status or support requests"
+msgstr ""
+
+#: /home/mnv/www/ex/framework/lib/views/user/login-m.html.php:8
+#: /home/mnv/www/ex/framework/lib/views/user/register-d.html.php:9
+#: /home/mnv/www/ex/framework/lib/views/user/register-m.html.php:9
+msgid "E-mail Address"
+msgstr "E-mail адрес"
+
+#: /home/mnv/www/ex/framework/lib/views/user/login-m.html.php:12
+#: /home/mnv/www/ex/framework/lib/views/user/register-d.html.php:13
+#: /home/mnv/www/ex/framework/lib/views/user/register-m.html.php:13
+msgid "Password"
+msgstr "Пароль"
+
+#: /home/mnv/www/ex/framework/lib/views/user/register-d.html.php:2
+#: /home/mnv/www/ex/framework/lib/views/user/register-d.html.php:22
+#: /home/mnv/www/ex/framework/lib/views/user/register-m.html.php:2
+#: /home/mnv/www/ex/framework/lib/views/user/register-m.html.php:22
+msgid "Register"
+msgstr "Регистрация"
+
+#: /home/mnv/www/ex/framework/lib/views/user/register-d.html.php:5
+#: /home/mnv/www/ex/framework/lib/views/user/register-m.html.php:5
+msgid "Name"
+msgstr "Имя"
+
+#: /home/mnv/www/ex/framework/lib/views/user/register-d.html.php:17
+#: /home/mnv/www/ex/framework/lib/views/user/register-m.html.php:17
+msgid "Confirm Password"
+msgstr "Подтвердите пароль"
+
+#: /home/mnv/www/ex/framework/lib/views/site/home-d.html.php:33
+#: /home/mnv/www/ex/framework/lib/views/site/home-m.html.php:5
+msgid "Profile"
+msgstr "Профиль"
+
+#: /home/mnv/www/ex/framework/lib/views/site/home-d.html.php:34
+#: /home/mnv/www/ex/framework/lib/views/site/home-m.html.php:6
+msgid "Exit"
+msgstr "Выход"
+
+#: /home/mnv/www/ex/framework/lib/views/site/error.html.php:2
+msgid "Error"
+msgstr "Ошибка"
+
+#: /home/mnv/www/ex/framework/lib/views/site/error.html.php:3
+msgid "Sorry, we couldn't find that page. Please check the URL or try again later"
+msgstr "К сожалению, страница не была найдена. Пожалуйста, проверьте ссылку или повторите попытку позже"
+
+#: /home/mnv/www/ex/framework/lib/views/site/home-m.html.php:3
+msgid "User"
+msgstr "Пользователь"
+
+#: /home/mnv/www/ex/framework/lib/views/site/home-m.html.php:11
+msgid "Pages"
+msgstr "Страницы"
+
+#, fuzzy
+#~ msgid "Terms of service"
+#~ msgstr "Оферта"
+
+#, fuzzy
+#~ msgid "Terms of use"
+#~ msgstr "Оферта"
