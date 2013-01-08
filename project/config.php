@@ -18,34 +18,6 @@ class Config extends CoreConfig {
     'driver_options' => null,
   );
 
-  //Формат начала ссылки ([/формат][/язык]/...) - порядок следования важен
-  public static $url_prefix_format = array(
-    // Format: d - desktop, m - mobile, t - tablet, 
-    // File names format for views: file[-format].html.php, 
-    //   Example: test-m.html.php, home.html.php
-    'format' => array(
-      'mask' => '/^(d|t|m)$/', 
-      'default' => 'd',
-      'supported' => array(
-        'd' => 'Desktop', 
-        'm' => 'Mobile',
-      ),
-      'display' => true,
-      'name' => 'Format',
-    ),
-    'locale' => array(
-      'mask' => '/^(ru|en|de|es|fr|it|ja|uk|zh|af|ar|be|bg|cz|da|el|et|fa|fi|hi|hu|hy|is|ko|lv|lt|nl|no|pl|pt|rm|ro|sr|sk|sl|sq|sv|th|tr|vi)$/', 
-      'default' => 'ru',
-      'supported' => array(
-        'ru' => 'Русский', 
-        'en' => 'English', 
-        'de' => 'Deutsch',
-      ),
-      'display' => true,
-      'name' => 'Language',
-    ),
-  );
-
   // Set the default controller hte user is directed to (aka homepage).
   public static $router_default_controller = 'site';
   public static $router_default_action = 'home';

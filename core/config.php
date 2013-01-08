@@ -12,7 +12,7 @@ class CoreConfig {
   // Change for every commit in master branch (string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-b1';
   // Change for every commit in develop branch (int)
-  public static $release = 1;
+  public static $release = 2;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 'Fast MVC framework, multilingual, with adaptive desigh support';
@@ -48,9 +48,34 @@ class CoreConfig {
     return dirname(dirname(__FILE__));
   }
 
-  //Формат начала ссылки, порядок следования важен
-  public static $url_prefix_format = array();
-
+  //Формат начала ссылки ([/формат][/язык]/...) - порядок следования важен
+  public static $url_prefix_format = array(
+    // Format: d - desktop, m - mobile, t - tablet, 
+    // File names format for views: file[-format].html.php, 
+    //   Example: test-m.html.php, home.html.php
+    'format' => array(
+      'mask' => '/^(d|t|m)$/', 
+      'default' => 'd',
+      'supported' => array(
+        'd' => 'Desktop', 
+        'm' => 'Mobile',
+      ),
+      'display' => true,
+      'name' => 'Format',
+    ),
+    'locale' => array(
+      'mask' => '/^(ru|en|de|es|fr|it|ja|uk|zh|af|ar|be|bg|cz|da|el|et|fa|fi|hi|hu|hy|is|ko|lv|lt|nl|no|pl|pt|rm|ro|sr|sk|sl|sq|sv|th|tr|vi)$/', 
+      'default' => 'ru',
+      'supported' => array(
+        'ru' => 'Русский', 
+        'en' => 'English', 
+        'de' => 'Deutsch',
+      ),
+      'display' => true,
+      'name' => 'Language',
+    ),
+  );
+  
   // Default controller and action
   public static $router_default_controller = '';
   public static $router_default_action = '';
