@@ -24,7 +24,7 @@ Catalog structure
   - models - files for work with data
   - controllers - files for processing of user actions
   - views - templates for pages
-* locale - translations, you can edit whem with Poedit editor, more info about translations: http://php.net/manual/en/book.gettext.php
+* locale - translations, you can edit whem with Poedit editor, [more info about translations](http://php.net/manual/en/book.gettext.php "PHP gettext")
 * plugins - plugins
 * static - css, js files, images and other static information
 * temp - temp files
@@ -32,19 +32,19 @@ Catalog structure
 First steps:
 ------------
 1. Installation
-1.1. Copy files into your web files folder 
-1.2. Set write access for "cache" and "data" folders
-1.3. Edit file project/config.php (set value of Config::$base_url)
-1.4. Installation completed
+ - Copy files into your web files folder 
+ - Set write access for "cache" and "data" folders
+ - Edit file `project/config.php` (set value of `Config::$base_url`)
+ - Installation completed
 2. Add you controller. 
-2.1. Edit routes: Config::$routes (see standart routes for example), add needed route
-2.2. Add controller into project/controllers
-2.3. Add view into project/views
-2.4. If necessery, add model into project/models
+ - Edit routes: `Config::$routes` (see standart routes for example), add needed route
+ - Add controller into `project/controllers`
+ - Add view into `project/views`
+ - If necessery, add model into `project/models`
 
 License
 ------------
-MIT, http://opensource.org/licenses/mit-license.php
+[MIT](http://opensource.org/licenses/mit-license.php)
 
 The MIT License (MIT)
 Copyright (c) 2012 mnv
