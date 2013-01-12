@@ -22,7 +22,7 @@ class UserModel {
 
   /**
    * Set all internal variables to 'Guest' status, then check to see if
-   * a user session or cookie exists.
+   * a user session exists.
    */
   function __construct(){
     $this->user_id = 0;
@@ -99,10 +99,12 @@ class UserModel {
         'create_ip' => $create_ip,
       ))) {
         $this->msg = _("Error! Can't create the user.").' '.$db->get_msg();
+        sleep(1); // Sleep one second (protection against crasy bots)
         return false;
       }
       $this->msg = _("User successfully added.");
       $this->ok = true;
+      sleep(1); // Sleep one second (protection against crasy bots)
       if ($login) {
         $this->login($info['login'], $info['password']);
       }
@@ -158,7 +160,7 @@ class UserModel {
       // Set user status flag back to true, peace has been restored.
       $this->ok = true;
 
-      // Set new login and password info in the session and cookies.
+      // Set new login and password info in the session.
       $_SESSION['auth_login'] = $login;
       if ($info['password']) {
         $_SESSION['auth_secret'] = $password;
@@ -214,7 +216,7 @@ class UserModel {
       // proceed with logging in the user.
       if ($this->get_password_hash($password) == $db_password) {
 
-        // Set session and cookie information.
+        // Set session information.
         $_SESSION['auth_login'] = $login;
         $_SESSION['auth_secret'] = hash_case(Config::$hash_function, $results[0]['id'] . $results[0]['login']);
 
@@ -235,14 +237,15 @@ class UserModel {
     else {
       $this->msg = _("Error! User does not exist.");
     }
+    sleep(1); // Sleep one second (protection against crasy bots)
     return false;
   }
   
   /**
-   * This function checks the session/cookie info to see if it's real by comparing it
+   * This function checks the session info to see if it's real by comparing it
    * to what is stored in the database.
    *
-   * @param   $login      The user's login address stored in session/cookie.
+   * @param   $login      The user's login address stored in session.
    * @param   $secret     The user's secret hash, a combination of their user id (from DB)
    *                      and their login address.
    */
@@ -294,7 +297,7 @@ class UserModel {
   
   /**
    * Log out the current user by setting all the local variables to their
-   * default values and resetting our PHP session and cookie info.
+   * default values and resetting our PHP session info.
    */ 
   function logout(){
     $this->user_id = 0;
