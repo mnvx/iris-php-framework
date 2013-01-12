@@ -31,16 +31,16 @@ class Cache {
     $this->cacheTime = Config::$cache_time;
     $this->cacheDir = CoreConfig::base_dir()."/cache";
 
-    $login = array_key_exists('auth_email', $_SESSION) ? $_SESSION['auth_email'] : null;
+    $login = array_key_exists('login', $_SESSION) ? $_SESSION['login'] : null;
     
     // Hash the requested URI.
     if (Config::$cache_pages == 'indiscriminately'
     || (Config::$cache_pages == 'guest' && !$login)) {
-      $this->cacheFile = hash(Config::$hash_function, $_SERVER['REQUEST_URI']);
+      $this->cacheFile = hash_case(Config::$hash_function, $_SERVER['REQUEST_URI']);
       $this->do_cache = true;
     }
     elseif (Config::$cache_pages == 'user') {
-      $this->cacheFile = hash(Config::$hash_function, $_SERVER['REQUEST_URI'].
+      $this->cacheFile = hash_case(Config::$hash_function, $_SERVER['REQUEST_URI'].
         ($login ? '*'.$login : ''));
       $this->do_cache = true;
     }

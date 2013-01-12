@@ -170,7 +170,10 @@ class Router {
 
   public function get_current_route()
   {
-    return $this->routes[$this->current_route_index];
+    if (array_key_exists($this->current_route_index, $this->routes)) {
+      return $this->routes[$this->current_route_index];
+    }
+    return null;
   }
 
   public function get_current_route_name()

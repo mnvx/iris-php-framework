@@ -12,7 +12,7 @@ class CoreConfig {
   // Change for every commit in master branch (string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-b1';
   // Change for every commit in develop branch (int)
-  public static $release = 2;
+  public static $release = 3;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 'Fast MVC framework, multilingual, with adaptive desigh support';
@@ -30,6 +30,7 @@ class CoreConfig {
   public static $cache_pages = 'user';
   public static $cache_time = 21600; // 6 hours = 6*60*60
   public static $hash_function = 'md5'; // For cache and passwords
+  public static $hash_lowercase = null; // true/false/null
 
   public static $password_salt = 'askjdfnasvfg#d64';
 
@@ -75,7 +76,7 @@ class CoreConfig {
       'name' => 'Language',
     ),
   );
-  
+
   // Default controller and action
   public static $router_default_controller = '';
   public static $router_default_action = '';

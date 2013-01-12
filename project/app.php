@@ -27,7 +27,7 @@ class App extends CoreApp {
       $databases->check_db('db');
     } 
     catch (Exception $e) {
-      die($e);
+      //die($e);
     }
     
     // User model

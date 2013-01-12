@@ -20,6 +20,10 @@ class CoreDataBases extends ArrayIterator {
   
   public function select_db($db_name)
   {
+    if (!$this->offsetExists($db_name)) {
+      $this->msg = __METHOD__.': '._('Database with index').' "'.$db_name.'" '._('was not found').'.';
+      return null;
+    }
     $db = $this->offsetGet($db_name);
     if (!$db) {
       $this->msg = _('Database info was not found in query').' '.__METHOD__;

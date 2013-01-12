@@ -18,4 +18,16 @@ function __autoload($name)
   require_once CoreConfig::lib_dir().'/controllers/'.strtolower($name).'.php';
 }
 
+function hash_case($value)
+{
+  $hash = hash(Config::$hash_function, $value);
+  if (Config::$hash_lowercase === true) {
+    $hash = strtoupper($hash);
+  }
+  elseif (Config::$hash_lowercase === false) {
+    $hash = strtolower($hash);
+  }
+  return $hash;
+}
+
 ?>

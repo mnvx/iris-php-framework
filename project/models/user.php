@@ -5,12 +5,6 @@
  *
  * This class contains all of the functions used for creating, managing and deleting
  * users.
- *
- * @package    jQuery Mobile PHP MVC Micro Framework
- * @author     Monji Dolon <md@devgrow.com>
- * @copyright  2011-2012 Monji Dolon
- * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License (GPL) v3
- * @link       http://devgrow.com/jquery-mobile-php-mvc-framework/
  */
 
 class UserModel {
@@ -19,7 +13,7 @@ class UserModel {
 
   protected $user_id;
   public $name;
-  public $email;
+  public $login;
   protected $password;
   public $ok;
   public $msg;
@@ -31,7 +25,7 @@ class UserModel {
    */
   function __construct(){
     $this->user_id = 0;
-    $this->email = "Guest";
+    $this->login = "Guest";
     $this->name = "Guest";
     $this->ok = false;
 
@@ -39,12 +33,17 @@ class UserModel {
 
     return $this->ok;
   }
+  
+  public function get_password_hash($password)
+  {
+    return hash_case($password.Config::$password_salt);
+  }
 
   /**
    * Create a user and by default, log them in once the account has been created.
    *
    * @param   $info       An array that contains the following info about the user:
-   *                       - name, email, password, password2 (password repeated), status (optional)
+   *                       - name, login, password, password2 (password repeated), status (optional)
    * @param   $login      Bool, whether or not to log the user in after creating account.
    */
   function create($info, $login = true){
@@ -52,8 +51,8 @@ class UserModel {
 
     // Escape the info fields and hash the password using the salt specified in config.php
     $name = $info['name'];
-    $email = $info['email'];
-    $password = hash(Config::$hash_function, $info['password'] . Config::$password_salt);
+    $login = $info['login'];
+    $password = $this->get_password_hash($info['password']);
 
     // If user status isn't set, assume default status (1)
     $status = array_key_exists('status', $info) && $info['status'] ? $info['status'] : 1;
@@ -65,7 +64,7 @@ class UserModel {
     $this->ok = false;
     
     // Validate all of the user input fields.
-    if(!$info['name'] || !$info['email'] || !$info['password'] || !$info['password2']){
+    if(!$info['name'] || !$info['login'] || !$info['password'] || !$info['password2']){
       $this->msg = _("Error! All fields are required.");
       return false;
     }
@@ -73,13 +72,13 @@ class UserModel {
       $this->msg = _("Error! Passwords do not match.");
       return false;
     }
-    elseif(!$this->validEmail($email)){
+    elseif(!$this->validEmail($login)){
       $this->msg = _("Error! Please enter a valid e-mail address.");
       return false;
     }
     
-    // Check to see if a user with that email address already exists.       
-    $query = $db->get_user_info('db', $email);
+    // Check to see if a user with that login address already exists.       
+    $query = $db->get_user_info('db', $login);
     if (!$query) {
       $this->msg = $db->get_msg();
       return false;
@@ -93,7 +92,7 @@ class UserModel {
       // User doesn't exist, so create a new account!
       if (!$db->insert_user('db', array(
         'name' => $name,
-        'email' => $email,
+        'login' => $login,
         'password' => $password,
         'status' => $status,
         'create_ip' => $create_ip,
@@ -104,7 +103,7 @@ class UserModel {
       $this->msg = _("User successfully added.");
       $this->ok = true;
       if ($login) {
-        $this->login($info['email'], $info['password']);
+        $this->login($info['login'], $info['password']);
       }
       return true;
     }
@@ -115,7 +114,7 @@ class UserModel {
    * Update a user's information.
    *
    * @param   $info       An array that contains the following info about the user:
-   *                       - name, email, password, password2 (password repeated), status (optional)
+   *                       - name, login, password, password2 (password repeated), status (optional)
    */
   function update($info) {
     $db = DataBases::singleton();
@@ -125,19 +124,19 @@ class UserModel {
     
     // Escape variables that are present by default.
     $name = $info['name'];
-    $email = $info['email'];
+    $login = $info['login'];
     
-    // Validate email address again.
-    if(!$this->validEmail($info['email'])) {
+    // Validate login address again.
+    if(!$this->validEmail($info['login'])) {
       $this->msg = _("Error! Please enter a valid e-mail address.");
       return false;
     }
 
     // Start building the SQL query with the data submitted so far.
-    $sql = "name='$name', email='$email'";
+    $sql = "name='$name', login='$login'";
     $fields = array(
       'name' => $name,
-      'email' => $email,
+      'login' => $login,
     );
 
     // If a password has been entered, validate it, re-hash it and add it to the SQL query.
@@ -146,7 +145,7 @@ class UserModel {
         $this->msg = _("Error! Passwords do not match.");
         return false;
       }
-      $password = hash(Config::$hash_function, $info['password'] . Config::$password_salt);
+      $password = $this->get_password_hash($info['password']);
       $fields['password'] = $password;
     }
 
@@ -158,15 +157,15 @@ class UserModel {
       // Set user status flag back to true, peace has been restored.
       $this->ok = true;
 
-      // Set new email and password info in the session and cookies.
-      $_SESSION['auth_email'] = $email;
+      // Set new login and password info in the session and cookies.
+      $_SESSION['auth_login'] = $login;
       if ($info['password']) {
         $_SESSION['auth_secret'] = $password;
       }
 
       // Update local variables to reflect new changes.
       $this->name = $name;
-      $this->email = $email;
+      $this->login = $login;
 
       return true;
     } 
@@ -178,17 +177,17 @@ class UserModel {
   }
 
    /**
-   * Function used to let hte user login, checking their email and password against
+   * Function used to let hte user login, checking their login and password against
    * what's stored in the database.
    *
-   * @param   $email      The user's email address.
+   * @param   $login      The user's login address.
    * @param   $password   The user's password, directly from POST.
    */
-  function login($email, $password) {
+  function login($login, $password) {
     $db = DataBases::singleton();
 
     // One of the fields is missing, deliver an error message.
-    if (!$email || !$password) {
+    if (!$login || !$password) {
       $this->msg = _("Error! Both E-mail and Password are required to login.");
       return false;
     }
@@ -196,8 +195,8 @@ class UserModel {
     // Set our user flag to false.
     $this->ok = false;
 
-    // Get user data using the email address supplied.
-    $query = $db->get_user_info('db', $email);
+    // Get user data using the login address supplied.
+    $query = $db->get_user_info('db', $login);
     if (!$query) {
       $this->msg = $db->get_msg();
       return false;
@@ -212,16 +211,16 @@ class UserModel {
 
       // Salt the current password and if it matches the stored password,
       // proceed with logging in the user.
-      if (hash(Config::$hash_function, $password . Config::$password_salt) == $db_password) {
+      if ($this->get_password_hash($password) == $db_password) {
 
         // Set session and cookie information.
-        $_SESSION['auth_email'] = $email;
-        $_SESSION['auth_secret'] = hash(Config::$hash_function, $results[0]['id'] . $results[0]['email']);
+        $_SESSION['auth_login'] = $login;
+        $_SESSION['auth_secret'] = hash_case(Config::$hash_function, $results[0]['id'] . $results[0]['login']);
 
         // Set local variables with the user's info.
         $this->user_id = $results[0]['id'];
         $this->name = $results[0]['name'];
-        $this->email = $email;
+        $this->login = $login;
         $this->ok = true;
         $this->is_logged = true;
         // Set status message.
@@ -242,27 +241,27 @@ class UserModel {
    * This function checks the session/cookie info to see if it's real by comparing it
    * to what is stored in the database.
    *
-   * @param   $email      The user's email address stored in session/cookie.
+   * @param   $login      The user's login address stored in session/cookie.
    * @param   $secret     The user's secret hash, a combination of their user id (from DB)
-   *                      and their email address.
+   *                      and their login address.
    */
   function check() {
-    if (!array_key_exists('auth_email', $_SESSION) || !array_key_exists('auth_secret', $_SESSION)) {
+    if (!array_key_exists('auth_login', $_SESSION) || !array_key_exists('auth_secret', $_SESSION)) {
       $this->msg = _('Authorization is necessary');
       return false;
     }
     
-    $email = $_SESSION['auth_email'];
+    $login = $_SESSION['auth_login'];
     $secret = $_SESSION['auth_secret'];
-    if (empty($email) || empty($secret)) {
+    if (empty($login) || empty($secret)) {
       $this->msg = _('Authorization is necessary');
       return false;
     }
 
     $db = DataBases::singleton();
 
-    // Get user data using the email address supplied.
-    $query = $db->get_user_info('db', $email);
+    // Get user data using the login address supplied.
+    $query = $db->get_user_info('db', $login);
     if (!$query) {
       $this->msg = $db->get_msg();
       return false;
@@ -270,9 +269,9 @@ class UserModel {
 
     $results = $query->fetchAll();
     if (count($results) == 1) {
-      if (hash(Config::$hash_function, $results[0]['id'] . $results[0]['email']) == $secret) {
+      if (hash_case(Config::$hash_function, $results[0]['id'] . $results[0]['login']) == $secret) {
         $this->user_id = $results[0]['id'];
-        $this->email = $email;
+        $this->login = $login;
         $this->name = $results[0]['name'];
         $this->ok = true;
         $this->is_logged = true;
@@ -286,7 +285,7 @@ class UserModel {
    * Check to see if the user is logged in based on their session data.
    */
   function is_logged() {
-    if ($_SESSION['auth_email']) {
+    if (array_key_exists('auth_login', $_SESSION) && $_SESSION['auth_login']) {
       return true;
     }
     return false;
@@ -298,24 +297,23 @@ class UserModel {
    */ 
   function logout(){
     $this->user_id = 0;
-    $this->email = "Guest";
+    $this->login = "Guest";
     $this->name = "Guest";
     $this->ok = true;
     $this->msg = _("You have been logged out!");
     $this->is_logged = false;
     
-    $_SESSION['auth_email'] = "";
+    $_SESSION['auth_login'] = "";
     $_SESSION['auth_secret'] = "";
   }
 
   /**
-   * Validate the user's email address.
-   * Courtesy LinuxJournal.com : http://www.linuxjournal.com/article/9585?page=0,3
+   * Validate the user's login address.
    *
-   * @param   $email      The email address to validate.
+   * @param   $login      The login address to validate.
    */
-  function validEmail($email){
-    return filter_var($email, FILTER_VALIDATE_EMAIL);
+  function validEmail($login){
+    return filter_var($login, FILTER_VALIDATE_EMAIL);
   }
 }
 

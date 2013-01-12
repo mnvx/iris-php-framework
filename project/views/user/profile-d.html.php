@@ -8,7 +8,7 @@
 		</p>
 		<p class='field'>
 			<label>E-mail:</label>
-			<span><big><big><?php echo $template->get('user_email'); ?></big></big></span>
+			<span><big><big><?php echo $template->get('user_login'); ?></big></big></span>
 		</p>
 	</div>
 	<a href="<?php echo $router->_url(); ?>/user/edit"><?php echo _('Update Information'); ?></a>
