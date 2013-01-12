@@ -11,13 +11,18 @@
 /**
  * Load the controller file automatically if it is referenced in a function.
  *
- * @param   $name  The name of the controller.
+ * @param $name  The name of the controller.
  */
 function __autoload($name) 
 {
-  require_once CoreConfig::lib_dir().'/controllers/'.strtolower($name).'.php';
+  require_once CoreConfig::lib_dir().'/controller/'.strtolower($name).'.php';
 }
 
+/**
+ * Get the hash in the required register 
+ *
+ * @param $value Hashed value.
+ */
 function hash_case($value)
 {
   $hash = hash(Config::$hash_function, $value);

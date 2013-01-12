@@ -9,7 +9,7 @@
  */
 
 require_once(Config::lib_dir().'/controller.php');
-require_once(Config::lib_dir().'/models/user.php');
+require_once(Config::lib_dir().'/model/user.php');
 require_once(Config::lib_dir().'/app.php');
 require_once(Config::lib_dir().'/db.php');
 
