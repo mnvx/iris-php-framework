@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * CoreDataBases Class
@@ -8,7 +9,7 @@
  * @license MIT, http://opensource.org/licenses/mit-license.php
  */
 
-class CoreDataBases extends ArrayIterator {
+class CoreDataBases extends \ArrayIterator {
   use Singleton;
 
   protected $msg;

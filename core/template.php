@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * Template Model

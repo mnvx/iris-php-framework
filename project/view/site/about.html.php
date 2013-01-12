@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
   <h2><?php echo _('About'); ?> <?php echo Config::$app_name; ?></h2>
 
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod nulla non sem varius at semper libero malesuada.</p>

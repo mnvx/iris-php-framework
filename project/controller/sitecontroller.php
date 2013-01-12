@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * Site Controller

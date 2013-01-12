@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * Configuration values
@@ -12,7 +13,7 @@ class CoreConfig {
   // Change for every commit in master branch (string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-b1';
   // Change for every commit in develop branch (int)
-  public static $release = 4;
+  public static $release = 5;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 'Fast MVC framework, multilingual, with adaptive desigh support';

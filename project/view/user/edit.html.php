@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 
 	<h2>Update Contact Info</h2>
 	<p><span class="label label-info">Note:</span> Only enter your password if you wish to change it, otherwise leave it blank.</p>

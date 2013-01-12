@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 
 	<h2><?php echo _('Options'); ?></h2>
 	

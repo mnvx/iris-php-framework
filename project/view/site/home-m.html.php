@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 <div class="menu">
     <ul data-role="listview" data-inset="true" data-theme="f">
       <li data-role="list-divider"><?php echo _('User'); ?></li>

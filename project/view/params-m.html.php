@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
     <?php
       $have_params_for_display = false;
       foreach(Config::$url_prefix_format as $format_value) { 
