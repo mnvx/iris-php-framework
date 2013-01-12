@@ -11,9 +11,9 @@ namespace IrisPHPFramework;
 
 class CoreConfig {
   // Change for every commit in master branch (string, http://habrahabr.ru/post/118756/)
-  public static $version = '1.0-b1';
+  public static $version = '1.0-b2';
   // Change for every commit in develop branch (int)
-  public static $release = 5;
+  public static $release = 6;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 'Fast MVC framework, multilingual, with adaptive desigh support';
