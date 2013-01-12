@@ -1,6 +1,4 @@
-
-	<h2><?php echo _('Options'); ?></h2>
-	
+<?php namespace IrisPHPFramework; ?>
     <?php
       $have_params_for_display = false;
       foreach(Config::$url_prefix_format as $format_value) { 
@@ -10,18 +8,16 @@
         }
       } 
     ?>
-
     <?php if ($have_params_for_display) { ?>
-    <div class="menu">
-      <ul class="nav nav-pills nav-stacked">
+      <fieldset data-role="controlgroup" data-type="horizontal" class="settings-header">
         <?php foreach(Config::$url_prefix_format as $format_name => $format_value) { ?>
           <?php if ($format_value['display'] && count($format_value['supported']) > 1) { ?>
-            <li><?php echo _($format_value['name']); ?></li>
+            <select name="select-prefix-<?php echo $format_name; ?>" id="select-prefix-<?php echo $format_name; ?>" data-theme="c" data-icon="gear" data-inline="true" class="select-prefix">
               <?php foreach ($format_value['supported'] as $supported_name => $supported_value) { ?>
-              <li <?php if ($supported_name == $router->get_url_prefix($format_name)) { ?> class="active" <?php } ?>> <a  href="<?php echo $router->_url($format_name, $supported_name, true); ?>"><?php echo _($supported_value); ?></a></li>
+              <option value="<?php echo $router->_url($format_name, $supported_name, true); ?>" <?php echo $router->get_url_prefix($format_name) == $supported_name ? 'selected' : ''; ?>><?php echo _($supported_value); ?></option>
               <?php } ?>
+            </select>
           <?php } ?>
         <?php } ?>
-      </ul>
-    </div>
+      </fieldset>
     <?php } ?>

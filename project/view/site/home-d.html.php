@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 <div id="myCarousel" class="carousel slide hidden-phone">
   <div class="carousel-inner">
     <div class="active item">

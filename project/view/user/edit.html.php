@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 
 	<h2>Update Contact Info</h2>
 	<p><span class="label label-info">Note:</span> Only enter your password if you wish to change it, otherwise leave it blank.</p>
@@ -7,8 +8,8 @@
 			<input type='text' name='name' class='text' id='name' value='<?php echo $template->get('user_name'); ?>' />
 		</p>
 		<p>
-			<label for='email'>E-mail Address:</label>
-			<input type='text' name='email' class='text' id='email' value='<?php echo $template->get('user_email'); ?>' />
+			<label for='login'>E-mail Address:</label>
+			<input type='text' name='login' class='text' id='login' value='<?php echo $template->get('user_login'); ?>' />
 		</p>
 		<p>
 			<label for='password'>Password:</label>

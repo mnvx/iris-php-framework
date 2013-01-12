@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 
 	<h2><?php echo _('Login'); ?></h2>
 
@@ -5,8 +6,8 @@
 	
 	<form method="post" action="<?php echo $router->_url(); ?>/login">
 		<div data-role="fieldcontain">
-			<label for="email" class="ui-input-text"><?php echo _('E-mail Address'); ?>:</label>
-			<input type="text" name="email" class="text" id="email" value="" />
+			<label for="login" class="ui-input-text"><?php echo _('E-mail Address'); ?>:</label>
+			<input type="text" name="login" class="text" id="login" value="" />
 		</div>
 		<div data-role="fieldcontain">
 			<label for="password"><?php echo _('Password'); ?>:</label>

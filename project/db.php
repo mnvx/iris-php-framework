@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * App Class
@@ -11,9 +12,9 @@
 class DataBases extends CoreDataBases {
 
   public function get_user_info($db_name, $login) {
-    $sql = 'SELECT id, password, name, email FROM users WHERE email = :email';
+    $sql = 'SELECT id, password, name, login FROM users WHERE login = :login';
     return $this->run_query($db_name, $sql, array(
-      'email' => $login,
+      'login' => $login,
     ));
   }
 
@@ -50,7 +51,7 @@ class DataBases extends CoreDataBases {
     $sql = 'CREATE TABLE IF NOT EXISTS users ( 
        id INTEGER PRIMARY KEY,
        name TEXT,
-       email TEXT,
+       login TEXT,
        password TEXT,
        create_ip TEXT,
        create_date TEXT,

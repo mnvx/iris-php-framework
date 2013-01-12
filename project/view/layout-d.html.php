@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 <!DOCTYPE html>
 <html lang="<?php echo $router->get_url_prefix('locale'); ?>">
 <head>

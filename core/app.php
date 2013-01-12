@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * CoreApp Class
@@ -59,17 +60,18 @@ class CoreApp {
     $this->custom_after_routing();
 
     // Extracting info about where the user is headed, in order to match the
-    // URL with the correct controllers/actions.
+    // URL with the correct controller/action.
     $controller = $r->get_controller();
     $controller_file = strtolower($r->get_controller().Config::$controller_postfix);
-    $controller_class = $r->get_controller_name().Config::$controller_postfix;
+    $controller_class = '\\IrisPHPFramework\\'.$r->get_controller_name().Config::$controller_postfix;
     $action = $r->get_action().Config::$action_postfix;
     $params = $r->get_params(); // Returns an array(...)
     $matched = $r->is_route_found(); // Bool, where True is if a route was found.
 
     $default_controller_class_name = ucfirst(Config::$router_default_controller).Config::$controller_postfix;
     if ($matched) {
-      if (file_exists(Config::lib_dir().'/controllers/'.$controller_file.'.php')) {
+      if (file_exists(Config::lib_dir().'/controller/'.$controller_file.'.php')) {
+        require_once Config::lib_dir().'/controller/'.$controller_file.'.php';
         $$controller = new $controller_class;
         if (method_exists($$controller, $action)) {
           $$controller->$action($params);

@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
   <?php if (Config::$debug) { ?>
     <div id="debug" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="debugLabel" aria-hidden="true">
       <div class="modal-header">

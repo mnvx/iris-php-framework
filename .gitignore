@@ -1,7 +1,15 @@
-# OS generated files #
-######################
+# OS generated files
 .DS_Store*
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# IDE files
 .sublime-project*
+
+# Framework files
+/cache/*
+!/cache/.htaccess
+/temp/*
+!/temp/.htaccess
+!/temp/translate.php

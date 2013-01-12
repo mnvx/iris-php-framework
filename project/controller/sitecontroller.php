@@ -1,20 +1,15 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * Site Controller
  *
  * Used for displaying all of the simpler, static pages on the site.
- *
- * @package    jQuery Mobile PHP MVC Micro Framework
- * @author     Monji Dolon <md@devgrow.com>
- * @copyright  2011-2012 Monji Dolon
- * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License (GPL) v3
- * @link       http://devgrow.com/jquery-mobile-php-mvc-framework/
  */
 
 class SiteController extends Controller {
 
-  private function renderPage($name, $params)
+  private static function renderPage($name, $params)
   {
     $template = TemplateModel::singleton();
 

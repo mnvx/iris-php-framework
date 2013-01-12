@@ -1,16 +1,11 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * User Controller
  *
  * This controller contains all the actions the user may perform that deals with their
  * account.
- *
- * @package    jQuery Mobile PHP MVC Micro Framework
- * @author     Monji Dolon <md@devgrow.com>
- * @copyright  2011-2012 Monji Dolon
- * @license    http://www.gnu.org/licenses/gpl.html  GNU General Public License (GPL) v3
- * @link       http://devgrow.com/jquery-mobile-php-mvc-framework/
  */
 
 class UserController extends Controller {
@@ -24,7 +19,7 @@ class UserController extends Controller {
     $this->login_required();
 
     $template->assign('user_name', $user->name);
-    $template->assign('user_email', $user->email);
+    $template->assign('user_login', $user->login);
     $template->set_title('My Profile');
     $template->render("user", "profile");
   }
@@ -43,7 +38,7 @@ class UserController extends Controller {
     }
     else {
       if (array_key_exists('task', $_POST) && $_POST['task'] == 'login') {
-        $user->login($_POST['email'],$_POST['password']);
+        $user->login($_POST['login'],$_POST['password']);
         $template->set_msg($user->msg, $user->ok);
         if ($user->ok && $_POST['return_to']) {
           $this->return_to($_POST['return_to']);
@@ -85,7 +80,7 @@ class UserController extends Controller {
       }
       $template->set_msg($user->msg, $user->ok);
     }
-    $template->assign('user_email',$user->email);
+    $template->assign('user_login',$user->login);
     $template->assign('user_name',$user->name);
     $template->set_title('Update Information');
     $template->render("user","edit");
@@ -112,7 +107,7 @@ class UserController extends Controller {
           $this->return_to('');
       }
       $template->set_msg($user->msg, $user->ok);
-      $template->assign('email',$_POST['email']);
+      $template->assign('login',$_POST['login']);
       $template->assign('name',$_POST['name']);
     }
     $template->set_title('Register');

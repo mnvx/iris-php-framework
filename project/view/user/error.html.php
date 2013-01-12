@@ -1,3 +1,4 @@
+<?php namespace IrisPHPFramework; ?>
 
 	<h2>Authentication Error</h2>
 	

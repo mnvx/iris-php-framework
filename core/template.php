@@ -1,4 +1,5 @@
 <?php
+namespace IrisPHPFramework;
 
 /**
  * Template Model
@@ -35,7 +36,7 @@ class TemplateModel {
    */
   public function get_view_file_name($model, $action = null){
     // If an action is specified, include the specific action.
-    $file = Config::lib_dir() . "/views/" . $model;
+    $file = Config::lib_dir() . "/view/" . $model;
     if ($action) {
       $file .= '/'.strtolower($action);
     }

@@ -1,13 +1,14 @@
+<?php namespace IrisPHPFramework; ?>
 
   <h2><?php echo _('Register'); ?></h2>
-  <form action='<?php echo $router->_url(); ?>/user/register' method='post' class='register-form'>
+  <form action='<?php echo $router->_url(); ?>/signup' method='post' class='register-form'>
     <p>
       <label for='name'><?php echo _('Name'); ?>:</label>
       <input type='text' name='name' class='text' id='name' value='' />
     </p>
     <p>
-      <label for='email'><?php echo _('E-mail Address'); ?>:</label>
-      <input type='text' name='email' class='text' id='email' value='' />
+      <label for='login'><?php echo _('E-mail Address'); ?>:</label>
+      <input type='text' name='login' class='text' id='login' value='' />
     </p>
     <p>
       <label for='password'><?php echo _('Password'); ?>:</label>
