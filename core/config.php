@@ -11,9 +11,9 @@ namespace IrisPHPFramework;
 
 class CoreConfig {
   // Change for every commit in master branch (string, http://habrahabr.ru/post/118756/)
-  public static $version = '1.0-b2';
+  public static $version = '1.0-rc1';
   // Change for every commit in develop branch (int)
-  public static $release = 6;
+  public static $release = 7;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 'Fast MVC framework, multilingual, with adaptive desigh support';
@@ -56,7 +56,7 @@ class CoreConfig {
     // File names format for views: file[-format].html.php, 
     //   Example: test-m.html.php, home.html.php
     'format' => array(
-      'mask' => '/^(d|t|m)$/', 
+      'mask' => '/^(d|m)$/', 
       'default' => 'd',
       'supported' => array(
         'd' => 'Desktop', 

@@ -34,7 +34,8 @@ class TemplateModel {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  public function get_view_file_name($model, $action = null){
+  public function get_view_file_name($model, $action = null) 
+  {
     // If an action is specified, include the specific action.
     $file = Config::lib_dir() . "/view/" . $model;
     if ($action) {
@@ -65,7 +66,8 @@ class TemplateModel {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  public function set_view_params($model, $action = null){
+  public function set_view_params($model, $action = null) 
+  {
     $this->inner_file = $this->get_view_file_name($model, $action);
     $this->controller = $model;
     $this->action = $action;
@@ -85,7 +87,8 @@ class TemplateModel {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  public function load($file, $action = null){
+  public function load($file, $action = null) 
+  {
     // Custom objects using in including view
     foreach ($this->custom_objets as $name => $object) {
       $$name = $object;
@@ -112,7 +115,8 @@ class TemplateModel {
    * @param   $action             When specified, name of the file ($file used as dir name)
    * @param   $caching_enabled    (optional): When specified, name of the file ($file used as dir name)
    */
-  public function render($model, $action = null) {
+  public function render($model, $action = null) 
+  {
     $this->set_view_params($model, $action);
     $this->load("layout");
   }
@@ -123,7 +127,8 @@ class TemplateModel {
    * @param   $name       Name of the variable to be assigned
    * @param   $value      String or Array object
    */
-  public function assign($name, $value){
+  public function assign($name, $value) 
+  {
     $this->variables[$name] = $value;
     
     //Если устанавливаем язык, то выполним переключение языка
@@ -145,7 +150,8 @@ class TemplateModel {
    *
    * @param   $title      Title of the rendered HTML file (<title></title>)
    */
-  public function set_title($title){
+  public function set_title($title) 
+  {
     $this->title = $title;
   }
 
@@ -153,7 +159,8 @@ class TemplateModel {
    * This function prints the page title that has been set in the controller,
    * should only be used in the header view.
    */
-  public function page_title(){
+  public function page_title() 
+  {
     $str = ($this->title ? _($this->title).' - ' : '')._(Config::$app_name);
     echo $str;
   }
@@ -165,7 +172,8 @@ class TemplateModel {
    * @param   $type       Type of message, either 'success' or 'error' -
    *                      passed into the DIV object as a class (used for styling).
    */
-  public function set_msg($the_msg, $type = null){
+  public function set_msg($the_msg, $type = null) 
+  {
     $this->msg = $the_msg;
     $this->msg_type = $type;
   }
@@ -173,7 +181,8 @@ class TemplateModel {
    /**
    * Displays the status or error message in the template.
    */
-  public function get_msg(){
+  public function get_msg() 
+  {
     $router = Router::singleton();
     $format = $router->get_url_prefix('format');
     $class = $format == 'd' ? 'alert' : 'status message';
@@ -189,15 +198,18 @@ class TemplateModel {
     }
   }
 
-  public function get_inner_file_name(){
+  public function get_inner_file_name() 
+  {
     return $this->inner_file;
   }
 
-  public function get_controller_name(){
+  public function get_controller_name() 
+  {
     return $this->controller;
   }
 
-  public function get_action_name(){
+  public function get_action_name() 
+  {
     return $this->action;
   }
 

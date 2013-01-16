@@ -4,11 +4,11 @@
 	
 	<div class="profile">
 		<p class='field'>
-			<label>Name:</label>
+			<label><?php echo _('User'); ?>:</label>
 			<span><?php echo $template->get('user_name'); ?></span>
 		</p>
 		<p class='field'>
-			<label>E-mail:</label>
+			<label><?php echo _('E-mail'); ?>:</label>
 			<span><?php echo $template->get('user_login'); ?></span>
 		</p>
 	</div>

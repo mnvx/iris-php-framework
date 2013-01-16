@@ -26,7 +26,7 @@
               <li class="divider-vertical"></li>
               <li><p class="navbar-text">
               <?php if ($user->is_logged()) { ?>
-                <?php echo _('Logged in as'); ?> <a href="<?php echo $router->_url(); ?>/user" class="navbar-link"><?php echo $user->name; ?></a>
+                <?php echo _('Logged in as'); ?> <a href="<?php echo $router->_url(); ?>/user" class="navbar-link"><?php echo $user->get_name(); ?></a>
                 / <a href="<?php echo $router->_url(); ?>/logout" class="navbar-link"><?php echo _('Logout'); ?></a>
               <?php } else { ?>
                 <a href="<?php echo $router->_url(); ?>/login" class="navbar-link"><?php echo _('Login'); ?></a>

@@ -64,3 +64,132 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Involvement
 Welcome: [Github](https://github.com/iriscrm/iris-php-framework "Iris PHP Framework on GitHub")
+
+# Example
+
+## Creation of new page with new controller, view, model, query and link in main menu (common case)
+
+### Add new router
+
+Add new element into `Config::routes` (file `project\config.php`)
+
+    'orders' => array(
+      'pattern' =>'/orders', 
+      'controller' => 'order', 
+      'action' => 'index',
+    ),
+
+### Add new controller
+
+Create file `project\controller\ordercontroller.php`
+
+    <?php
+    namespace IrisPHPFramework;
+    /**
+     * Order Controller
+     */
+
+    class OrderController extends Controller {
+      /**
+       * Order list page.
+       */
+      function indexAction() {
+        $this->login_required();
+
+        $template = TemplateModel::singleton();
+        $template->assign('order_list', OrderModel::singleton()->get_list(UserModel::singleton()->login));
+        $template->set_title(_('My orders'));
+        $template->render("order", "orders");
+      }
+    }
+    ?>
+
+### Add new model
+
+Create file `project\model\order.php`
+
+    <?php
+    namespace IrisPHPFramework;
+    /**
+     * Order Model
+     */
+
+    class OrderModel {
+      use Singleton;
+      protected $msg;
+      function get_list($client_number)
+      {
+        $db = DataBases::singleton();
+        $query = $db->get_client_order_list('db', $client_number);
+        if (!$query) {
+          $this->msg = $db->get_msg();
+          return false;
+        }
+        // Fetch all results and process the data if the row exists.
+        $results = $query->fetchAll();
+        return $results;
+      }
+    }
+    ?>
+
+Edit `project\index.php`
+    ...
+    require_once(Config::lib_dir().'/model/order.php');
+    ...
+
+### Add new database query
+
+Add new method into `DataBases` class (file `project\db.php`)
+
+    public function get_client_order_list($db_name, $client) {
+      $sql = "
+        select '11227' as docnum, '2013-01-15' as docdate, 1200 as amount, 'Oil change' as claim
+        union
+        select '11122' as docnum, '2013-01-13' as docdate, 3120 as amount, null as claim
+        union
+        select '11023' as docnum, '2013-01-12' as docdate, 120.45 as amount, null as claim
+      ";
+      return $this->run_query($db_name, $sql, array());
+    }
+
+### Add new view
+
+Create file `project\view\order\orders.html.php`
+
+    <?php namespace IrisPHPFramework; ?>
+    <?php 
+      $profile = $user->get_profile_info(); 
+      $orders = $template->get('order_list');
+    ?>
+
+    <h2><?php echo _('My orders'); ?></h2>
+    
+    <div class="orders">
+
+      <table class="table">
+      <tr>
+        <th><?php echo _('Order number'); ?></th>
+        <th><?php echo _('Date'); ?></th>
+        <th><?php echo _('Amount'); ?></th>
+        <th><?php echo _('Claim'); ?></th>
+      </tr>
+      
+      <?php foreach ($orders as $order_info) { ?>
+        <tr>
+          <td><?php echo $order_info['docnum']; ?></td>
+          <td><?php echo $order_info['docdate']; ?></td>
+          <td><?php echo $order_info['amount']; ?></td>
+          <td><?php echo $order_info['claim']; ?></td>
+        </tr>
+      <?php } ?>
+      </table>
+
+    </div>
+
+### Add link for this page in menu
+
+Edit files `project\view\site\home-d.html.php` and `project\view\site\home-m.html.php`
+
+    ...
+    <li><a href="<?php echo $router->_url(); ?>/orders"><?php echo _('My orders'); ?></a></li>
+    ...

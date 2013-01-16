@@ -68,7 +68,8 @@ class CoreApp {
     $params = $r->get_params(); // Returns an array(...)
     $matched = $r->is_route_found(); // Bool, where True is if a route was found.
 
-    $default_controller_class_name = ucfirst(Config::$router_default_controller).Config::$controller_postfix;
+    $default_controller_class_name = '\\IrisPHPFramework\\'.ucfirst(Config::$router_default_controller).Config::$controller_postfix;
+    $default_controller_file = strtolower(Config::$router_default_controller.Config::$controller_postfix);
     if ($matched) {
       if (file_exists(Config::lib_dir().'/controller/'.$controller_file.'.php')) {
         require_once Config::lib_dir().'/controller/'.$controller_file.'.php';
@@ -83,15 +84,18 @@ class CoreApp {
 
         }
         else {
+          require_once Config::lib_dir().'/controller/'.$default_controller_file.'.php';
           $default_controller_class_name::errorAction();
         }
       }
       else {
+        require_once Config::lib_dir().'/controller/'.$default_controller_file.'.php';
         $default_controller_class_name::errorAction();
       }
     }
     else {
-     $default_controller_class_name::errorAction();
+      require_once Config::lib_dir().'/controller/'.$default_controller_file.'.php';
+      $default_controller_class_name::errorAction();
     }
   }
 
