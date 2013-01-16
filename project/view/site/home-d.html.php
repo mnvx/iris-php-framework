@@ -29,7 +29,7 @@
 </div>
 
 <div>
-  <?php if ($user->is_logged) { ?>
+  <?php if ($user->is_logged()) { ?>
   <div class="menu">
     <ul class="nav nav-pills nav-stacked">
       <li><a href="<?php echo $router->_url(); ?>/user"><?php echo _('Profile'); ?></a></li>

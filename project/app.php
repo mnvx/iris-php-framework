@@ -36,6 +36,8 @@ class App extends CoreApp {
 
     // Template
     $template = TemplateModel::singleton();
+    $template->assign('user_name', $user->get_name());
+    $template->assign('user_login', $user->get_login());
     $template->register_custom_object('user', $user);
   }
   
