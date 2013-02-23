@@ -38,8 +38,8 @@
   </div>
   <?php } else { ?>
   <h3><a href="<?php echo $router->url('login'); ?>"><?php echo _('Login'); ?></a>
-  <small>Если Вы уже зарегистрированы, войдите с помощью логина и пароля.</small></h3>
+  <small><?php echo _('If you are already registered, sign in with your username and password'); ?>.</small></h3>
   <h3><a href="<?php echo $router->url('signup'); ?>"><?php echo _('Register'); ?></a>
-  <small>Если у Вас ещё нет аккаунта, пройдите регистрацию.</small></h3>
+  <small><?php echo _('If you do not have an account, please register'); ?>.</small></h3>
   <?php } ?>
 </div>

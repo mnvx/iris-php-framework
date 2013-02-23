@@ -79,7 +79,7 @@ class CoreConfigTest extends \PHPUnit_Framework_TestCase {
     $class_config = 'IrisPHPFramework\\CoreConfig';
 
     $class_config::set_locale('ru');
-    $this->assertEquals(_('User'), 'Пользователь');
+    $this->assertEquals('Пользователь', _('User'));
 
 /*
     $class_config::set_locale('de');
@@ -87,12 +87,13 @@ class CoreConfigTest extends \PHPUnit_Framework_TestCase {
 */
 
     $class_config::set_locale('not_exists');
-    $this->assertEquals(_('User'), 'Пользователь');
+    $this->assertEquals('Пользователь', _('User'));
 
-/*
     $class_config::set_locale('en');
     $this->assertEquals('User', _('User'));
-*/
+
+    $class_config::set_locale('ru');
+    $this->assertEquals('test_not_exists_translate', _('test_not_exists_translate'));
   }
 
 }

@@ -24,6 +24,13 @@ require_once 'framework/project/model/user.php';
 
 class CoreViewTest extends \PHPUnit_Framework_TestCase {
 
+  public function __construct()
+  {
+    if (!session_id()) {
+      session_start();
+    }
+  }
+
   /**
    * Register custom object to access them from views
    */
@@ -52,8 +59,10 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
     $view = $class_view::singleton();
     
     $this->assertNull($view->get_view_file_name('model'));
-    $this->assertEquals($class_config::project_path() . "/view/layout-d.html.php", $view->get_view_file_name('layout'));
-    $this->assertEquals($class_config::project_path() . "/view/site/about.html.php", $view->get_view_file_name('site', 'about'));
+    $this->assertEquals($class_config::project_path() . "/view/layout-d.html.php", 
+      $view->get_view_file_name('layout'));
+    $this->assertEquals($class_config::project_path() . "/view/site/about.html.php", 
+      $view->get_view_file_name('site', 'about'));
     $this->assertNull($view->get_view_file_name('site'));
     
     $view->destroy();
@@ -64,6 +73,7 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
    */
   public function test_set_view_params() 
   {
+    ob_start();
     $class_view = get_final_class_name('View');
     $class_config = get_final_class_name('Config');
 
@@ -76,18 +86,22 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
     $this->assertNull($view->get_inner_file_name());
 
     $view->render('layout');
-    $this->assertEquals($class_config::project_path() . "/view/layout-d.html.php", $view->get_inner_file_name());
+    $this->assertEquals($class_config::project_path() . "/view/layout-d.html.php", 
+      $view->get_inner_file_name());
 
     $view->render('site', 'about');
-    $this->assertEquals($class_config::project_path() . "/view/site/about.html.php", $view->get_inner_file_name());
+    $this->assertEquals($class_config::project_path() . "/view/site/about.html.php", 
+      $view->get_inner_file_name());
 
     $view->render('site');
     $this->assertNull($view->get_inner_file_name());
 
     $view->render('not_exists', 'about');
-    $this->assertEquals($class_config::project_path() . "/view/site/error.html.php", $view->get_inner_file_name());
+    $this->assertEquals($class_config::project_path() . "/view/site/error.html.php", 
+      $view->get_inner_file_name());
 
     $view->destroy();
+    ob_clean();
   }
 
   /**
@@ -132,10 +146,12 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
     $view = $class_view::singleton();
 
     $view->set_msg('test_msg');
-    $this->assertEquals("<div class=\"alert alert-error\">test_msg</div>\n", $view->get_msg());
+    $this->assertEquals("<div class=\"alert alert-error\">test_msg</div>\n", 
+      $view->get_msg());
 
     $view->set_msg('test_msg', true);
-    $this->assertEquals("<div class=\"alert alert-success\">test_msg</div>\n", $view->get_msg());
+    $this->assertEquals("<div class=\"alert alert-success\">test_msg</div>\n", 
+      $view->get_msg());
 
     $view->set_msg(null);
     $this->assertNull($view->get_msg());
@@ -146,45 +162,14 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
     $view->destroy();
   }
 
-  /**
-   * Displays the status or error message in the template.
-   */
-  public function get_msg() 
-  {
-    if ($this->msg) {
-      $class_router = get_final_class_name('Router');
-      $router = $class_router::singleton();
-      $format = $router->get_url_prefix_param_value('format');
-      $class = $format == 'd' ? 'alert' : 'status message';
-      
-      if ($this->msg_type) {
-        $style = ($format == 'd' ? 'alert-' : '').'success';
-      } 
-      else {
-        $style = ($format == 'd' ? 'alert-' : '').'error';
-      }
-
-      return '<div class="' . $class . ' ' . $style . '">'.$this->escape($this->msg)."</div>\n";
-    }
-    return null;
-  }
   
   /**
    * Return safe for output html text
    * 
    * @param   $html       HTML text
    */
-  public function escape($html)
+  public function test_escape()
   {
-    return htmlspecialchars($html);
-  }
-
-  /**
-   * Get file name, which must be outputted inside template
-   */
-  public function get_inner_file_name() 
-  {
-    return $this->inner_file;
   }
 
 }

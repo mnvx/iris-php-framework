@@ -44,20 +44,24 @@ class UserModel {
    * Create a user and by default, log them in once the account has been created.
    *
    * @param   $info       An array that contains the following info about the user:
-   *                       - name, login, password, password2 (password repeated), status (optional)
-   * @param   $login      Bool, whether or not to log the user in after creating account.
+   *                       - name, login, password, password2 (password repeated), 
+   *                         status (optional)
+   * @param   $login      Bool, whether or not to log the user in after creating 
+   *                      account.
    */
   function create($info, $login = true) 
   {
     $db = DB::singleton();
 
-    // Escape the info fields and hash the password using the salt specified in config.php
+    // Escape the info fields and hash the password using the salt specified 
+    // in Config class
     $name = $info['name'];
     $login = $info['login'];
     $password = $this->get_password_hash($info['password']);
 
     // If user status isn't set, assume default status (1)
-    $status = array_key_exists('status', $info) && $info['status'] ? $info['status'] : 1;
+    $status = array_key_exists('status', $info) 
+      && $info['status'] ? $info['status'] : 1;
 
     // Store the IP address that the user create's the account with.
     $create_ip = $_SERVER['REMOTE_ADDR'];
@@ -66,7 +70,10 @@ class UserModel {
     $this->ok = false;
     
     // Validate all of the user input fields.
-    if (!$info['name'] || !$info['login'] || !$info['password'] || !$info['password2']) {
+    if (!$info['name'] 
+    || !$info['login'] 
+    || !$info['password'] 
+    || !$info['password2']) {
       $this->msg = _("Error! All fields are required.");
       return false;
     }
@@ -118,13 +125,15 @@ class UserModel {
    * Update a user's information.
    *
    * @param   $info       An array that contains the following info about the user:
-   *                       - name, login, password, password2 (password repeated), status (optional)
+   *                       - name, login, password, password2 (password repeated), 
+   *                         status (optional)
    */
   function update($info) 
   {
     $db = DB::singleton();
 
-    // Reset our error detection flag, which is used to set the status message later on.
+    // Reset our error detection flag, which is used to set the status message 
+    // later on.
     $this->ok = false;
     
     // Escape variables that are present by default.
@@ -144,7 +153,8 @@ class UserModel {
       'login' => $login,
     );
 
-    // If a password has been entered, validate it, re-hash it and add it to the SQL query.
+    // If a password has been entered, validate it, re-hash it and add it 
+    // to the SQL query.
     if ($info['password']) {
       if ($info['password'] != $info['password2']) {
         $this->msg = _("Error! Passwords do not match.");
@@ -221,7 +231,8 @@ class UserModel {
 
         // Set session information.
         $_SESSION['auth_login'] = $login;
-        $_SESSION['auth_secret'] = hash_case(Config::$hash_function, $results[0]['id'] . $results[0]['login']);
+        $_SESSION['auth_secret'] = 
+          hash_case(Config::$hash_function, $results[0]['id'].$results[0]['login']);
 
         // Set local variables with the user's info.
         $this->user_id = $results[0]['id'];
@@ -248,13 +259,15 @@ class UserModel {
    * to what is stored in the database.
    *
    * @param   $login      The user's login address stored in session.
-   * @param   $secret     The user's secret hash, a combination of their user id (from DB)
-   *                      and their login address.
+   * @param   $secret     The user's secret hash, a combination of their user id 
+   *                      (from DB) and their login address.
    */
   function check() 
   {
     $this->ok = false;
-    if (!array_key_exists('auth_login', $_SESSION) || !array_key_exists('auth_secret', $_SESSION)) {
+    if (!isset($_SESSION) 
+    || !array_key_exists('auth_login', $_SESSION) 
+    || !array_key_exists('auth_secret', $_SESSION)) {
       $this->msg = _('Authorization is necessary');
       return false;
     }
@@ -277,7 +290,8 @@ class UserModel {
 
     $results = $query->fetchAll();
     if (count($results) == 1) {
-      if (hash_case(Config::$hash_function, $results[0]['id'] . $results[0]['login']) == $secret) {
+      if (hash_case(Config::$hash_function, $results[0]['id'].$results[0]['login']) 
+      == $secret) {
         $this->user_id = $results[0]['id'];
         $this->login = $login;
         $this->name = $results[0]['name'];
@@ -293,7 +307,9 @@ class UserModel {
    */
   function is_logged() 
   {
-    if (array_key_exists('auth_login', $_SESSION) && $_SESSION['auth_login']) {
+    if (isset($_SESSION)
+    && array_key_exists('auth_login', $_SESSION) 
+    && $_SESSION['auth_login']) {
       return true;
     }
     return false;

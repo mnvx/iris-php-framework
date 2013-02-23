@@ -14,7 +14,7 @@ class CoreConfig {
   //(string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-rc2';
   // Change for every commit in develop branch (int)
-  public static $release = 8;
+  public static $release = 9;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 
@@ -161,6 +161,7 @@ class CoreConfig {
     }
     setlocale(LC_MESSAGES, $locale);
 
+    putenv('LANGUAGE='.$locale);
     putenv('LANG='.$locale);
 
     // устанавливаем кодировку файла messages.mo
