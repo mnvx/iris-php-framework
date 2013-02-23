@@ -96,10 +96,11 @@ Create file `project\controller\ordercontroller.php`
       function indexAction() {
         $this->login_required();
 
-        $template = TemplateModel::singleton();
-        $template->assign('order_list', OrderModel::singleton()->get_list(UserModel::singleton()->login));
-        $template->set_title(_('My orders'));
-        $template->render("order", "orders");
+        $class_view = get_final_class_name('View');
+        $view = $class_view::singleton();
+        $view->assign('order_list', OrderModel::singleton()->get_list(UserModel::singleton()->login));
+        $view->set_title(_('My orders'));
+        $view->render("order", "orders");
       }
     }
     ?>
@@ -119,7 +120,7 @@ Create file `project\model\order.php`
       protected $msg;
       function get_list($client_number)
       {
-        $db = DataBases::singleton();
+        $db = DB::singleton();
         $query = $db->get_client_order_list('db', $client_number);
         if (!$query) {
           $this->msg = $db->get_msg();
@@ -134,12 +135,12 @@ Create file `project\model\order.php`
 
 Edit `project\index.php`
     ...
-    require_once(Config::lib_dir().'/model/order.php');
+    require_once(Config::project_path().'/model/order.php');
     ...
 
 ### Add new database query
 
-Add new method into `DataBases` class (file `project\db.php`)
+Add new method into `DB` class (file `project\db.php`)
 
     public function get_client_order_list($db_name, $client) {
       $sql = "
@@ -149,7 +150,7 @@ Add new method into `DataBases` class (file `project\db.php`)
         union
         select '11023' as docnum, '2013-01-12' as docdate, 120.45 as amount, null as claim
       ";
-      return $this->run_query($db_name, $sql, array());
+      return $this->run_query($sql, array(), $db_name);
     }
 
 ### Add new view
@@ -159,7 +160,7 @@ Create file `project\view\order\orders.html.php`
     <?php namespace IrisPHPFramework; ?>
     <?php 
       $profile = $user->get_profile_info(); 
-      $orders = $template->get('order_list');
+      $orders = $view->get('order_list');
     ?>
 
     <h2><?php echo _('My orders'); ?></h2>
@@ -176,10 +177,10 @@ Create file `project\view\order\orders.html.php`
       
       <?php foreach ($orders as $order_info) { ?>
         <tr>
-          <td><?php echo $order_info['docnum']; ?></td>
-          <td><?php echo $order_info['docdate']; ?></td>
-          <td><?php echo $order_info['amount']; ?></td>
-          <td><?php echo $order_info['claim']; ?></td>
+          <td><?php echo $view->escape($order_info['docnum']); ?></td>
+          <td><?php echo $view->escape($order_info['docdate']); ?></td>
+          <td><?php echo $view->escape($order_info['amount']); ?></td>
+          <td><?php echo $view->escape($order_info['claim']); ?></td>
         </tr>
       <?php } ?>
       </table>
@@ -191,5 +192,5 @@ Create file `project\view\order\orders.html.php`
 Edit files `project\view\site\home-d.html.php` and `project\view\site\home-m.html.php`
 
     ...
-    <li><a href="<?php echo $router->_url(); ?>/orders"><?php echo _('My orders'); ?></a></li>
+    <li><a href="<?php echo $router->prefix_url(); ?>/orders"><?php echo _('My orders'); ?></a></li>
     ...
