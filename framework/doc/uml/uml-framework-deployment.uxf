@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.5.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.custom.Node</type>
+    <coordinates>
+      <x>350</x>
+      <y>220</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Web 
+server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Node</type>
+    <coordinates>
+      <x>520</x>
+      <y>220</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Database
+server</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Actor</type>
+    <coordinates>
+      <x>190</x>
+      <y>210</y>
+      <w>100</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>Browser</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>240</x>
+      <y>220</y>
+      <w>130</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;110;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>430</x>
+      <y>220</y>
+      <w>110</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;90;30</additional_attributes>
+  </element>
+</diagram>

@@ -8,8 +8,8 @@ Thumbs.db
 .sublime-project*
 
 # Framework files
-/cache/*
-!/cache/.htaccess
-/temp/*
-!/temp/.htaccess
-!/temp/translate.php
+/framework/cache/*
+!/framework/cache/.htaccess
+/framework/temp/*
+!/framework/temp/.htaccess
+!/framework/temp/translate.php
