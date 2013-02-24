@@ -13,3 +13,6 @@ Thumbs.db
 /framework/temp/*
 !/framework/temp/.htaccess
 !/framework/temp/translate.php
+
+/frameworkErrorScreens/*
+/frameworkCoverage/*
