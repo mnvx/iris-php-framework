@@ -81,10 +81,8 @@ class CoreConfigTest extends \PHPUnit_Framework_TestCase {
     $class_config::set_locale('ru');
     $this->assertEquals('Пользователь', _('User'));
 
-/*
     $class_config::set_locale('de');
     $this->assertEquals(_('User'), 'Benutzer');
-*/
 
     $class_config::set_locale('not_exists');
     $this->assertEquals('Пользователь', _('User'));
