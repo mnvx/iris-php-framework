@@ -9,15 +9,15 @@ namespace IrisPHPFramework;
 
 class CoreRoute {
   // Array from configuration with info about route
-  protected $route;
+  protected $_route;
   // Parsed URL parameters (from {})
-  protected $params;
+  protected $_params;
   // Is current URL matched to this route?
-  protected $is_matched = false;
+  protected $_is_matched = false;
   // Controller name
-  protected $controller_name;
+  protected $_controller_name;
   // Action name
-  protected $action_name;
+  protected $_action_name;
 
   /**
    * Route constructor
@@ -26,12 +26,12 @@ class CoreRoute {
    * @param $request_uri Current URL
    */
   function __construct($route, $request_uri) {
-    $this->route = $route;
+    $this->_route = $route;
     $url = '';
     if (array_key_exists('pattern', $route)) {
       $url = $route['pattern'] == '/' ? '' : $route['pattern'];
     }
-    $this->params = array();
+    $this->_params = array();
     $this->conditions = array_key_exists('requirements', $route) 
       ? $route['requirements'] 
       : null;
@@ -57,15 +57,15 @@ class CoreRoute {
     if (preg_match($url_regex, $request_uri, $p_values)) {
       array_shift($p_values);
       foreach ($p_names[1] as $index => $value) {
-        $this->params[$value] = urldecode($p_values[$index]);
+        $this->_params[$value] = urldecode($p_values[$index]);
       }
       if (array_key_exists('controller', $route)) {
-        $this->controller_name = $route['controller'];
+        $this->_controller_name = $route['controller'];
       }
       if (array_key_exists('action', $route)) {
-        $this->action_name = $route['action'];
+        $this->_action_name = $route['action'];
       }
-      $this->is_matched = true;
+      $this->_is_matched = true;
     }
   }
   
@@ -76,7 +76,7 @@ class CoreRoute {
    */
   public function is_matched()
   {
-    return $this->is_matched;
+    return $this->_is_matched;
   }
 
   /**
@@ -86,7 +86,7 @@ class CoreRoute {
    */
   public function get_route()
   {
-    return $this->route;
+    return $this->_route;
   }
 
   /**
@@ -96,7 +96,7 @@ class CoreRoute {
    */
   public function get_params()
   {
-    return $this->params;
+    return $this->_params;
   }
 
   /**
@@ -106,7 +106,7 @@ class CoreRoute {
    */
   public function get_controller_name()
   {
-    return $this->controller_name;
+    return $this->_controller_name;
   }
 
   /**
@@ -116,7 +116,7 @@ class CoreRoute {
    */
   public function get_action_name()
   {
-    return $this->action_name;
+    return $this->_action_name;
   }
 
 }

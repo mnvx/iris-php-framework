@@ -12,14 +12,14 @@ namespace IrisPHPFramework;
 class CoreDB extends \ArrayIterator {
   use Singleton;
 
-  protected $msg;
+  protected $_msg;
   
   /**
    * Get message about last operation
    */
   public function get_msg()
   {
-    return $this->msg;
+    return $this->_msg;
   }
   
   /**
@@ -29,6 +29,7 @@ class CoreDB extends \ArrayIterator {
    */
   public function get_db_connection($db_name = null)
   {
+    $db = null;
     if (!$db_name) {
       if ($this->count() == 1) {
         $this->seek(0);
@@ -37,13 +38,13 @@ class CoreDB extends \ArrayIterator {
     }
     else {
       if (!$this->offsetExists($db_name)) {
-        $this->msg = __METHOD__.': '._('Database with index').' "'.$db_name.'" '._('was not found').'.';
+        $this->_msg = __METHOD__.': '._('Database with index').' "'.$db_name.'" '._('was not found').'.';
         return null;
       }
       $db = $this->offsetGet($db_name);
     }
     if (!$db) {
-      $this->msg = _('Database info was not found in query').' '.__METHOD__;
+      $this->_msg = _('Database info was not found in query').' '.__METHOD__;
     }
     return $db;
   }
@@ -59,7 +60,7 @@ class CoreDB extends \ArrayIterator {
   {
     $db = $this->get_db_connection($db_name);
     if (!$db) {
-      $this->msg = _('Database was not found').': '.$db_name.'; '.__METHOD__;
+      $this->_msg = _('Database was not found').': "'.$db_name.'"; '.__METHOD__;
       return null;
     }
 
@@ -67,20 +68,20 @@ class CoreDB extends \ArrayIterator {
       $query = $db->prepare($sql);
     }
     catch (Exception $e) {
-      $this->msg = _('Error when preparing the query').' '.__METHOD__;
+      $this->_msg = _('Error when preparing the query').' '.__METHOD__;
       return null;
     }
     
     if (!$query) {
-      $this->msg = _('Error in query').' '.__METHOD__;
+      $this->_msg = _('Error in query').' '.__METHOD__;
       return null;
     }
 
     try {
       $query->execute($params);
     }
-    catch (Exception $e) {
-      $this->msg = _('Error when executing the query').' '.__METHOD__;
+    catch (PDOException $e) {
+      $this->_msg = _('Error when executing the query').' '.__METHOD__;
       return null;
     }
     

@@ -11,7 +11,7 @@ namespace IrisPHPFramework;
 
 class Application extends CoreApplication {
 
-  protected function custom_after_routing()
+  protected function _custom_after_routing()
   {
     try {
       // Connecting to database

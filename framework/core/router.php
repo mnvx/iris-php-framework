@@ -12,17 +12,17 @@ namespace IrisPHPFramework;
 class CoreRouter {
   use Singleton;
 
-  protected $request_uri;
+  protected $_request_uri;
   // Route object array
-  protected $routes;
+  protected $_routes;
   // Current controller name in format "options" or "my_controller"
-  protected $controller_name;
+  protected $_controller_name;
   // Current controller name in format "Options" or "MyController"
-  protected $controller_name_ucfirst;
+  protected $_controller_name_ucfirst;
   // Current action name
-  protected $action_name;
+  protected $_action_name;
   // Current route name
-  protected $current_route_name = null;
+  protected $_current_route_name = null;
   
   // Part of current url, what contains parameters from CoreConfig::$url_prefix_format
   protected $url_prefix;
@@ -64,8 +64,8 @@ class CoreRouter {
     }
     $request = implode('/', $request_array);
 
-    $this->request_uri = ($request ? '/' : '').$request;
-    $this->routes = array();
+    $this->_request_uri = ($request ? '/' : '').$request;
+    $this->_routes = array();
   }
   
   /**
@@ -95,7 +95,7 @@ class CoreRouter {
   {
     $class_config = get_final_class_name('Config');
     if ($params == null) {
-      return $class_config::$base_url.$this->url_prefix.($current ? $this->request_uri : '');
+      return $class_config::$base_url.$this->url_prefix.($current ? $this->_request_uri : '');
     }
     $url = $class_config::$base_url;
     foreach (Config::$url_prefix_format as $prefix_name => $prefix_value) {
@@ -113,7 +113,7 @@ class CoreRouter {
         $url .= '/'.$params[$prefix_name];
       }
     }
-    return $url.($current ? $this->request_uri : '');
+    return $url.($current ? $this->_request_uri : '');
   }
   
   /**
@@ -125,8 +125,8 @@ class CoreRouter {
    */
   public function url($route_name, $url_params = array(), $prefix_params = null)
   {
-    if (array_key_exists($route_name, $this->routes)) {
-      $route = $this->routes[$route_name]->get_route();
+    if (array_key_exists($route_name, $this->_routes)) {
+      $route = $this->_routes[$route_name]->get_route();
       $pattern = $route['pattern'];
       foreach ($url_params as $key => $value) {
         $pattern = str_replace('{'.$key.'}', $value, $pattern);
@@ -141,7 +141,7 @@ class CoreRouter {
    */
   public function get_controller_name()
   {
-    return $this->controller_name;
+    return $this->_controller_name;
   }
 
   /**
@@ -149,7 +149,7 @@ class CoreRouter {
    */
   public function get_controller_class_name()
   {
-    return $this->controller_name_ucfirst;
+    return $this->_controller_name_ucfirst;
   }
 
   /**
@@ -157,7 +157,7 @@ class CoreRouter {
    */
   public function get_action_name()
   {
-    return $this->action_name;
+    return $this->_action_name;
   }
 
   /**
@@ -166,8 +166,8 @@ class CoreRouter {
    */
   public function get_params()
   {
-    if (array_key_exists($this->current_route_name, $this->routes)) {
-      return $this->routes[$this->current_route_name]->get_params();
+    if (array_key_exists($this->_current_route_name, $this->_routes)) {
+      return $this->_routes[$this->_current_route_name]->get_params();
     }
     return null;
   }
@@ -177,7 +177,7 @@ class CoreRouter {
    */
   public function is_route_found()
   {
-    return $this->current_route_name != null;
+    return $this->_current_route_name != null;
   }
 
   /**
@@ -186,9 +186,9 @@ class CoreRouter {
   public function map($name, $route)
   {
     $class_route = get_final_class_name('Route');
-    $this->routes[$name] = new $class_route($route, $this->request_uri);
-    if ($this->routes[$name]->is_matched()) {
-      $this->current_route_name = $name;
+    $this->_routes[$name] = new $class_route($route, $this->_request_uri);
+    if ($this->_routes[$name]->is_matched()) {
+      $this->_current_route_name = $name;
     }
   }
 
@@ -197,8 +197,8 @@ class CoreRouter {
    */
   public function execute()
   {
-    if (array_key_exists($this->current_route_name, $this->routes)) {
-      $this->set_route($this->routes[$this->current_route_name]);
+    if (array_key_exists($this->_current_route_name, $this->_routes)) {
+      $this->_set_route($this->_routes[$this->_current_route_name]);
     }
   }
 
@@ -208,8 +208,8 @@ class CoreRouter {
    */
   public function get_current_route()
   {
-    if (array_key_exists($this->current_route_name, $this->routes)) {
-      return $this->routes[$this->current_route_name];
+    if (array_key_exists($this->_current_route_name, $this->_routes)) {
+      return $this->_routes[$this->_current_route_name];
     }
     return null;
   }
@@ -220,33 +220,33 @@ class CoreRouter {
    */
   public function get_current_route_name()
   {
-    return $this->current_route_name;
+    return $this->_current_route_name;
   }
 
   /**
    * Set current route parameters
    * @param class::Route Route object
    */
-  protected function set_route($route)
+  protected function _set_route($route)
   {
     $class_config = get_final_class_name('Config');
 
     if ($route) {
-      $this->controller_name = $route->get_controller_name();
-      $this->action_name = $route->get_action_name();    
+      $this->_controller_name = $route->get_controller_name();
+      $this->_action_name = $route->get_action_name();    
     }
   
     // Not defined controller or action in route
-    if (empty($this->controller_name) || empty($this->action_name)) {
-      $this->controller_name = $class_config::$router_default_controller;
-      $this->action_name = $class_config::$router_default_action;
+    if (empty($this->_controller_name) || empty($this->_action_name)) {
+      $this->_controller_name = $class_config::$router_default_controller;
+      $this->_action_name = $class_config::$router_default_action;
     }
 
-    $w = explode('_', $this->controller_name);
+    $w = explode('_', $this->_controller_name);
     foreach($w as $k => $v) {
       $w[$k] = ucfirst($v);
     }
-    $this->controller_name_ucfirst = implode('', $w);
+    $this->_controller_name_ucfirst = implode('', $w);
   }
 
 }

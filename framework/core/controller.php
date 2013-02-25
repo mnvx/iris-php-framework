@@ -16,7 +16,7 @@ class CoreController {
    *
    * @param   $location  URL of where you want to return the user to.
    */
-  protected function redirect_to($location) {
+  protected function _redirect_to($location) {
     $class_router = get_final_class_name('Router');
     $router = $class_router::singleton();
     $location = $router->prefix_url().'/'.$location;

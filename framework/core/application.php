@@ -65,7 +65,7 @@ class CoreApplication {
       $cache->start();
     }
 
-    $this->custom_after_routing();
+    $this->_custom_after_routing();
 
     // Extracting info about where the user is headed, in order to match the
     // URL with the correct controller/action.
@@ -104,7 +104,7 @@ class CoreApplication {
    * Custom handler, where possible to create database connection, 
    * template parameters, custom objects, what can be accessible in views
    */
-  protected function custom_after_routing()
+  protected function _custom_after_routing()
   {
     // For overriding in App
   }

@@ -13,12 +13,12 @@ namespace IrisPHPFramework;
 class CoreView {
   use Singleton;
 
-  protected $variables = array();
-  protected $custom_objets = array();
-  protected $title;
-  protected $msg;
-  protected $msg_type;
-  protected $inner_file;
+  protected $_variables = array();
+  protected $_custom_objets = array();
+  protected $_title;
+  protected $_msg;
+  protected $_msg_type;
+  protected $_inner_file;
 
   /**
    * Register custom object to access them from views
@@ -29,7 +29,7 @@ class CoreView {
    */
   public function register_custom_object($name, $object)
   {
-    $this->custom_objets[$name] = $object;
+    $this->_custom_objets[$name] = $object;
   }
 
   /**
@@ -39,8 +39,8 @@ class CoreView {
    */
   public function get_custom_object($name)
   {
-    if (array_key_exists($name, $this->custom_objets)) {
-      return $this->custom_objets[$name];
+    if (array_key_exists($name, $this->_custom_objets)) {
+      return $this->_custom_objets[$name];
     }
     return null;
   }
@@ -87,13 +87,13 @@ class CoreView {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  protected function set_view_params($model, $action = null) 
+  protected function _set_view_params($model, $action = null) 
   {
-    $this->inner_file = $this->get_view_file_name($model, $action);
+    $this->_inner_file = $this->get_view_file_name($model, $action);
     
-    if ($action && !file_exists($this->inner_file)) {
+    if ($action && !file_exists($this->_inner_file)) {
       $class_config = get_final_class_name('Config');
-      $this->inner_file = $this->get_view_file_name($class_config::$router_default_controller, 'error');
+      $this->_inner_file = $this->get_view_file_name($class_config::$router_default_controller, 'error');
     }
   }
 
@@ -107,14 +107,14 @@ class CoreView {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  protected function load($file, $action = null) 
+  protected function _load($file, $action = null) 
   {
     $class_router = get_final_class_name('Router');
     $class_debug = get_final_class_name('Debug');
     $class_config = get_final_class_name('Config');
 
     // Custom objects using in including view
-    foreach ($this->custom_objets as $name => $object) {
+    foreach ($this->_custom_objets as $name => $object) {
       $$name = $object;
     }
 
@@ -126,7 +126,7 @@ class CoreView {
     $file = $this->get_view_file_name($file, $action);
 
     // Load the view file only if it exists.
-    if (file_exists($file) && file_exists($this->inner_file) && $this->inner_file != $file) { 
+    if (file_exists($file) && file_exists($this->_inner_file) && $this->_inner_file != $file) { 
       include_once $file;
     }
     else {
@@ -144,8 +144,8 @@ class CoreView {
    */
   public function render($model, $action = null) 
   {
-    $this->set_view_params($model, $action);
-    $this->load("layout");
+    $this->_set_view_params($model, $action);
+    $this->_load("layout");
   }
 
   /**
@@ -156,7 +156,7 @@ class CoreView {
    */
   public function assign($name, $value) 
   {
-    $this->variables[$name] = $value;
+    $this->_variables[$name] = $value;
     
     //Если устанавливаем язык, то выполним переключение языка
     if ($name == 'locale') {
@@ -172,8 +172,8 @@ class CoreView {
    */
   public function get($name)
   {
-    if (array_key_exists($name, $this->variables)) {
-      return $this->variables[$name];
+    if (array_key_exists($name, $this->_variables)) {
+      return $this->_variables[$name];
     }
     return null;
   }
@@ -185,7 +185,7 @@ class CoreView {
    */
   public function set_title($title) 
   {
-    $this->title = $title;
+    $this->_title = $title;
   }
 
   /**
@@ -194,7 +194,7 @@ class CoreView {
    */
   public function page_title() 
   {
-    $str = ($this->title ? _($this->title).' - ' : '')._(Config::$app_name);
+    $str = ($this->_title ? _($this->_title).' - ' : '')._(Config::$app_name);
     return $str;
   }
 
@@ -207,8 +207,8 @@ class CoreView {
    */
   public function set_msg($the_msg, $type = null) 
   {
-    $this->msg = $the_msg;
-    $this->msg_type = $type;
+    $this->_msg = $the_msg;
+    $this->_msg_type = $type;
   }
 
   /**
@@ -216,20 +216,20 @@ class CoreView {
    */
   public function get_msg() 
   {
-    if ($this->msg) {
+    if ($this->_msg) {
       $class_router = get_final_class_name('Router');
       $router = $class_router::singleton();
       $format = $router->get_url_prefix_param_value('format');
       $class = $format == 'd' ? 'alert' : 'status message';
       
-      if ($this->msg_type) {
+      if ($this->_msg_type) {
         $style = ($format == 'd' ? 'alert-' : '').'success';
       } 
       else {
         $style = ($format == 'd' ? 'alert-' : '').'error';
       }
 
-      return '<div class="' . $class . ' ' . $style . '">'.$this->escape($this->msg)."</div>\n";
+      return '<div class="' . $class . ' ' . $style . '">'.$this->escape($this->_msg)."</div>\n";
     }
     return null;
   }
@@ -249,7 +249,7 @@ class CoreView {
    */
   public function get_inner_file_name() 
   {
-    return $this->inner_file;
+    return $this->_inner_file;
   }
 
 }

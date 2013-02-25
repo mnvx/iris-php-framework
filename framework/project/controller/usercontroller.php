@@ -33,17 +33,17 @@ class UserController extends Controller {
     $class_view = get_final_class_name('View');
     $view = $class_view::singleton();
     if ($user->is_logged()) {
-      $this->redirect_to('');
+      $this->_redirect_to('');
     }
     else {
       if (array_key_exists('task', $_POST) && $_POST['task'] == 'login') {
         $user->login($_POST['login'], $_POST['password']);
         $view->set_msg($user->get_msg(), $user->is_ok());
         if ($user->is_ok() && $_POST['redirect_to']) {
-          $this->redirect_to($_POST['redirect_to']);
+          $this->_redirect_to($_POST['redirect_to']);
         }
         elseif ($user->is_ok()) {
-          $this->redirect_to('user');
+          $this->_redirect_to('user');
         }
       }
     }
@@ -64,7 +64,7 @@ class UserController extends Controller {
       $user->logout();
       $view->set_msg($user->get_msg(), $user->is_ok());
     }
-    $this->redirect_to('login');
+    $this->_redirect_to('login');
   }
 
   /**
@@ -104,9 +104,9 @@ class UserController extends Controller {
       if ($user->create($_POST)) {
         $view->set_msg($user->get_msg(), $user->is_ok());
         if (array_key_exists('redirect_to', $_POST))
-          $this->redirect_to($_POST['redirect_to']);
+          $this->_redirect_to($_POST['redirect_to']);
         else
-          $this->redirect_to('');
+          $this->_redirect_to('');
       }
       $view->set_msg($user->get_msg(), $user->is_ok());
       $view->assign('login', $_POST['login']);

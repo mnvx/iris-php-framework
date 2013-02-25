@@ -13,14 +13,14 @@ class CoreDebug {
 
   use Singleton;
 
-  protected $start_time;
-  protected $intermediate_time;
-  protected $log = array();
+  protected $_start_time;
+  protected $_intermediate_time;
+  protected $_log = array();
 
   public function __construct()
   {
-    $this->start_time = microtime(true);
-    $this->intermediate_time = microtime(true);
+    $this->_start_time = microtime(true);
+    $this->_intermediate_time = microtime(true);
     $this->log('Start');
   }
 
@@ -29,7 +29,7 @@ class CoreDebug {
   * @param float $time - start time
   * @param boolean $format - false (float), true - round (2 digits)
   */
-  protected function calc_duration($time, $format = true)
+  protected function _calc_duration($time, $format = true)
   {
     $result_time = microtime(true) - $time;
     if ($format) {
@@ -43,7 +43,7 @@ class CoreDebug {
   */
   public function reset_intermediate_time()
   {
-    $this->intermediate_time = microtime(true);
+    $this->_intermediate_time = microtime(true);
   }
 
   /**
@@ -52,7 +52,7 @@ class CoreDebug {
   */
   public function get_intermediate_time($format = true)
   {
-    return $this->calc_duration($this->intermediate_time, $format);
+    return $this->_calc_duration($this->_intermediate_time, $format);
   }
 
   /**
@@ -61,7 +61,7 @@ class CoreDebug {
   */
   public function get_total_time($format = true)
   {
-    return $this->calc_duration($this->start_time, $format);
+    return $this->_calc_duration($this->_start_time, $format);
   }
 
   /**
@@ -71,9 +71,9 @@ class CoreDebug {
   */
   public function log($message, $format = true)
   {
-    $count = count($this->log);
-    $this->log[$count]['time'] = $this->get_total_time($format);
-    $this->log[$count]['message'] = $message;
+    $count = count($this->_log);
+    $this->_log[$count]['time'] = $this->get_total_time($format);
+    $this->_log[$count]['message'] = $message;
   }
 
   /**
@@ -81,7 +81,7 @@ class CoreDebug {
   */
   public function log_info()
   {
-    return $this->log;
+    return $this->_log;
   }
   
   /**

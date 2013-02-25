@@ -44,7 +44,7 @@ class CoreConfig {
   public static $encoding = 'utf8';
 
   /**
-   * Base path
+   * Return slash in current OS format
    */
   public static function get_slash()
   {
@@ -144,6 +144,7 @@ class CoreConfig {
 
   /**
    * Set locale
+   * @param $language Language (ru, en, de, ...), what defined in CoreConfig::locales
    */
   public static function set_locale($language)
   {

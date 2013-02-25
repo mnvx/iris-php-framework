@@ -16,43 +16,46 @@ namespace IrisPHPFramework;
 
 class CoreCache {
 
-  protected $cacheDir;
-  protected $cacheTime;
-  protected $caching = false;
-  protected $cacheFile;
-  protected $cacheFilePathName;
-  protected $do_cache = false;
+  protected $_cache_dir;
+  protected $_cache_time;
+  protected $_caching = false;
+  protected $_cache_file;
+  protected $_cache_file_path_name;
+  protected $_do_cache = false;
 
   /**
    * Create an hash of the currently requested URL, set the filename based on the hash.
    */
   public function __construct($cache_time, $cache_path, $cache_pages, $hash_function) {
-    $this->cacheTime = $cache_time;
-    $this->cacheDir = $cache_path;
+    $this->_cache_time = $cache_time;
+    $this->_cache_dir = $cache_path;
 
     $login = array_key_exists('login', $_SESSION) ? $_SESSION['login'] : null;
 
     // Hash the requested URI
     if ($cache_pages == 'indiscriminately'
     || ($cache_pages == 'guest' && !$login)) {
-      $this->cacheFile = hash_case($hash_function, $_SERVER['REQUEST_URI']);
-      $this->do_cache = true;
+      $this->_cache_file = hash_case($hash_function, $_SERVER['REQUEST_URI']);
+      $this->_do_cache = true;
     }
     elseif ($cache_pages == 'user') {
-      $this->cacheFile = hash_case($hash_function, $_SERVER['REQUEST_URI'].
+      $this->_cache_file = hash_case($hash_function, $_SERVER['REQUEST_URI'].
         ($login ? '*'.$login : ''));
-      $this->do_cache = true;
+      $this->_do_cache = true;
     }
     else {
-      $this->cacheFile = '';
+      $this->_cache_file = '';
+      $this->_do_cache = false;
     }
     
     // Set the filename using the hash.
-    $this->cacheFilePathName = $this->cacheDir.'/'.$this->cacheFile.'.cache';
-
+    $class_config = get_final_class_name('Config');
+    $this->_cache_file_path_name = $this->_cache_dir.$class_config::get_slash().
+      $this->_cache_file.'.cache';
     // If the cache directory doesn't exist, create it and set correct permissions.
-    if (!is_dir($this->cacheDir)) {
-      mkdir($this->cacheDir, 0755);
+    if (!is_dir($this->_cache_dir)) {
+      mkdir($this->_cache_dir, 0755);
+      file_put_contents($this->_cache_dir.$class_config::get_slash().'.htaccess', 'Deny from all');
     }
   }
   
@@ -61,8 +64,8 @@ class CoreCache {
    * you are trying to cache, then call the end function at the (duh) end of it.
    */
   public function start() {
-    if (!$this->do_cache) {
-      $this->caching = false;
+    if (!$this->_do_cache) {
+      $this->_caching = false;
       return;
     }
     // Get the Router object
@@ -72,17 +75,17 @@ class CoreCache {
     $cache_this_page = array_key_exists('caching', $route) ? $route['caching'] : false;
 
     // If this page isn't in the "Do not cache" list, and caching is enabled, either
-    // start the cache process if the previous cache is older than cacheTime or doesn't exist,
+    // start the cache process if the previous cache is older than _cache_time or doesn't exist,
     // or else just render the existing cache file.
-    if ($cache_this_page && Config::$cache_enable) {
-      if (file_exists($this->cacheFilePathName) 
-      && (time() - filemtime($this->cacheFilePathName)) < $this->cacheTime) {
-        $this->caching = false;
-        echo file_get_contents($this->cacheFilePathName);
+    if ($cache_this_page/* && Config::$cache_enable*/) {
+      if (file_exists($this->_cache_file_path_name) 
+      && (time() - filemtime($this->_cache_file_path_name)) < $this->_cache_time) {
+        $this->_caching = false;
+        echo file_get_contents($this->_cache_file_path_name);
         exit();
       }
       else {
-        $this->caching = true;
+        $this->_caching = true;
         ob_start();
       }
     }
@@ -93,8 +96,8 @@ class CoreCache {
    * you are trying to cache, then call the end function at the (duh) end of it.
    */
   public function end() {
-    if ($this->caching) {
-      file_put_contents($this->cacheFilePathName, ob_get_contents());
+    if ($this->_caching) {
+      file_put_contents($this->_cache_file_path_name, ob_get_contents());
       ob_end_flush();
     }
   }
@@ -103,8 +106,8 @@ class CoreCache {
    * This function deletes the cache file for the current URI.
    */
   public function purge() {
-    if (file_exists($this->cacheFile) && is_writable($this->cacheDir)) {
-      unlink($this->cacheFile);
+    if (file_exists($this->_cache_file_path_name) && is_writable($this->_cache_dir)) {
+      unlink($this->_cache_file_path_name);
     }
   }
   
@@ -112,15 +115,16 @@ class CoreCache {
    * This function deletes all of the cache files in the cache directory.
    */
   public function purge_all() {
-    if (!$dirhandle = @opendir($this->cacheDir)) {
+    if (!$dirhandle = @opendir($this->_cache_dir)) {
       return;
     }
+    $class_config = get_final_class_name('Config');
     while (false != ($filename = readdir($dirhandle))) {
-      if (substr($filename, -4) == '.cache') {
-        $filename = $this->cacheDir. "/". $filename;
-        unlink($filename);
+      if (substr($filename, -6) == '.cache') {
+        unlink($this->_cache_dir.$class_config::get_slash().$filename);
       }
     }
+    closedir($dirhandle);
   }
 }
 
