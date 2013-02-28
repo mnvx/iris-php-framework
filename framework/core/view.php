@@ -146,7 +146,7 @@ class CoreView {
   {
     $this->_set_view_params($model, $action);
     $this->_load("layout");
-  }
+   }
 
   /**
    * Used to assign variables that can be used in the template files.
@@ -194,7 +194,8 @@ class CoreView {
    */
   public function page_title() 
   {
-    $str = ($this->_title ? _($this->_title).' - ' : '')._(Config::$app_name);
+    $Config = get_final_class_name('Config');
+    $str = ($this->_title ? _($this->_title).' - ' : '')._($Config::$app_name);
     return $str;
   }
 

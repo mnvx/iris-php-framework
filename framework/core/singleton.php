@@ -24,13 +24,13 @@ trait Singleton {
   {
     // Get name of current class
     $sClassName = get_called_class();
- 
+
     // Create new instance if necessary
     if (!isset(self::$_aInstance[$sClassName])) {
       self::$_aInstance[$sClassName] = new $sClassName();
     }
     $oInstance = self::$_aInstance[$sClassName];
-    
+
     return $oInstance;
   }
 

@@ -18,6 +18,8 @@ class CoreRoute {
   protected $_controller_name;
   // Action name
   protected $_action_name;
+  // Module path name
+  protected $_module_path_name;
 
   /**
    * Route constructor
@@ -25,14 +27,14 @@ class CoreRoute {
    * @param $route Array from configuration with info about route
    * @param $request_uri Current URL
    */
-  function __construct($route, $request_uri) {
+  function __construct($route, $request_uri, $module_path_name = null) {
     $this->_route = $route;
     $url = '';
-    if (array_key_exists('pattern', $route)) {
+    if (isset($route['pattern'])) {
       $url = $route['pattern'] == '/' ? '' : $route['pattern'];
     }
     $this->_params = array();
-    $this->conditions = array_key_exists('requirements', $route) 
+    $this->conditions = isset($route['requirements']) 
       ? $route['requirements'] 
       : null;
     $p_names = array(); 
@@ -44,7 +46,7 @@ class CoreRoute {
     // Get url template in regex format
     $url_regex = preg_replace_callback('#{([\w]+)}#', function ($match) {
       $key = $match[1];
-      if (array_key_exists($key, $this->conditions)) {
+      if (isset($this->conditions[$key])) {
         return '('.$this->conditions[$key].')';
       } 
       else {
@@ -59,11 +61,14 @@ class CoreRoute {
       foreach ($p_names[1] as $index => $value) {
         $this->_params[$value] = urldecode($p_values[$index]);
       }
-      if (array_key_exists('controller', $route)) {
+      if (isset($route['controller'])) {
         $this->_controller_name = $route['controller'];
       }
-      if (array_key_exists('action', $route)) {
+      if (isset($route['action'])) {
         $this->_action_name = $route['action'];
+      }
+      if ($module_path_name) {
+        $this->_module_path_name = $module_path_name;
       }
       $this->_is_matched = true;
     }
@@ -117,6 +122,16 @@ class CoreRoute {
   public function get_action_name()
   {
     return $this->_action_name;
+  }
+
+  /**
+   * Get module path name, where realised processing of the route
+   *
+   * @result string
+   */
+  public function get_module_path_name()
+  {
+    return $this->_module_path_name;
   }
 
 }

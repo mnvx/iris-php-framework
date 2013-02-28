@@ -77,7 +77,7 @@ class CoreCache {
     // If this page isn't in the "Do not cache" list, and caching is enabled, either
     // start the cache process if the previous cache is older than _cache_time or doesn't exist,
     // or else just render the existing cache file.
-    if ($cache_this_page/* && Config::$cache_enable*/) {
+    if ($cache_this_page) {
       if (file_exists($this->_cache_file_path_name) 
       && (time() - filemtime($this->_cache_file_path_name)) < $this->_cache_time) {
         $this->_caching = false;

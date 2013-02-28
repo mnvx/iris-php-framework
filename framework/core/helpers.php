@@ -52,19 +52,8 @@ function hash_case($value)
  */
 function get_final_class_name($class_short_name)
 {
-  if (class_exists('IrisPHPFramework\\'.$class_short_name)) {
-    return 'IrisPHPFramework\\'.$class_short_name;
-  }
-  elseif (class_exists('IrisPHPFramework\\'.'Solution'.$class_short_name)) {
-    return 'IrisPHPFramework\\'.'Solution'.$class_short_name;
-  }
-  elseif (class_exists('IrisPHPFramework\\'.'Base'.$class_short_name)) {
-    return 'IrisPHPFramework\\'.'Base'.$class_short_name;
-  }
-  elseif (class_exists('IrisPHPFramework\\'.'Core'.$class_short_name)) {
-    return 'IrisPHPFramework\\'.'Core'.$class_short_name;
-  }
-  return false;
+  $module = CoreModule::singleton();
+  return $module->get_final_class_name($class_short_name);
 }
 
 ?>

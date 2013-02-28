@@ -10,11 +10,53 @@ namespace IrisPHPFramework;
  */
 
 class CoreConfig {
+
+  // Structure of the core
+  public static $module_structure = array(
+    // Current module name
+    'name' => 'Core',
+    // What modules are required for current module
+    'require_module' => array(''),
+    // Format: BaseClassName => array('class' => ClassName[, 'parent' => PaerntClassName])
+    'classes' => array(
+      'Config' => array(
+        'class' => 'CoreConfig'
+      ),
+      'Application' => array(
+        'class' => 'CoreApplication'
+      ),
+      'Controller' => array(
+        'class' => 'CoreController'
+      ),
+      'DB' => array(
+        'class' => 'CoreDB'
+      ),
+      'Cache' => array(
+        'class' => 'CoreCache'
+      ),
+      'Debug' => array(
+        'class' => 'CoreDebug'
+      ),
+      'Module' => array(
+        'class' => 'CoreModule'
+      ),
+      'Route' => array(
+        'class' => 'CoreRoute'
+      ),
+      'Router' => array(
+        'class' => 'CoreRouter'
+      ),
+      'View' => array(
+        'class' => 'CoreView'
+      ),
+    ),
+  );
+  
   // Change for every commit in master branch 
   //(string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-rc2';
   // Change for every commit in develop branch (int)
-  public static $release = 10;
+  public static $release = 11;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 
@@ -56,9 +98,9 @@ class CoreConfig {
    */
   public static function base_path()
   {
-    return dirname(dirname(__FILE__));
+    return dirname(__DIR__);
   }
-  
+
   /**
    * Core path
    */
@@ -68,19 +110,28 @@ class CoreConfig {
   }
 
   /**
-   * Solution path
+   * Base module path (path, what contains all modules)
    */
-  public static function solution_path()
+  public static function base_module_path()
   {
-    return static::base_path().static::get_slash().'solution';
+    return static::base_path().static::get_slash().'module';
   }
 
   /**
    * Project path
+   * @deprecated
    */
   public static function project_path()
   {
-    return static::base_path().static::get_slash().'project';
+    return static::base_path().static::get_slash().'module'.static::get_slash().'project';
+  }
+
+  /**
+   * Module path (concrete module path)
+   */
+  public static function module_path()
+  {
+    return static::core_path();
   }
 
   //Link prefix format: ([/format][/language]/...) - order is important

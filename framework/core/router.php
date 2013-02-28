@@ -21,6 +21,8 @@ class CoreRouter {
   protected $_controller_name_ucfirst;
   // Current action name
   protected $_action_name;
+  // Current route module path name
+  protected $_module_path_name;
   // Current route name
   protected $_current_route_name = null;
   
@@ -98,7 +100,7 @@ class CoreRouter {
       return $class_config::$base_url.$this->url_prefix.($current ? $this->_request_uri : '');
     }
     $url = $class_config::$base_url;
-    foreach (Config::$url_prefix_format as $prefix_name => $prefix_value) {
+    foreach ($class_config::$url_prefix_format as $prefix_name => $prefix_value) {
       //Try to get default URL parameters from current url
       if (array_key_exists($prefix_name, $this->url_prefix_array)) {
         if (!array_key_exists($prefix_name, $params)) {
@@ -161,6 +163,14 @@ class CoreRouter {
   }
 
   /**
+   * Get current routing module path name
+   */
+  public function get_module_path_name()
+  {
+    return $this->_module_path_name;
+  }
+
+  /**
    * Get current parameters from route (parsed from {})
    * @return array|null Return current route parameters
    */
@@ -183,12 +193,13 @@ class CoreRouter {
   /**
    * Add route info to route parser and check - is it current route?
    */
-  public function map($name, $route)
+  public function map($name, $route, $module_path_name = null)
   {
     $class_route = get_final_class_name('Route');
-    $this->_routes[$name] = new $class_route($route, $this->_request_uri);
+    $this->_routes[$name] = new $class_route($route, $this->_request_uri, $module_path_name);
     if ($this->_routes[$name]->is_matched()) {
       $this->_current_route_name = $name;
+      $this->_module_path_name = $module_path_name;
     }
   }
 
@@ -234,12 +245,14 @@ class CoreRouter {
     if ($route) {
       $this->_controller_name = $route->get_controller_name();
       $this->_action_name = $route->get_action_name();    
+      $this->_module_path_name = $route->get_module_path_name();
     }
   
     // Not defined controller or action in route
     if (empty($this->_controller_name) || empty($this->_action_name)) {
       $this->_controller_name = $class_config::$router_default_controller;
       $this->_action_name = $class_config::$router_default_action;
+      $this->_module_path_name = null;
     }
 
     $w = explode('_', $this->_controller_name);
