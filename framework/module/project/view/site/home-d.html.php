@@ -32,14 +32,14 @@
   <?php if ($user->is_logged()) { ?>
   <div class="menu">
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="<?php echo $router->url('profile'); ?>"><?php echo _('Profile'); ?></a></li>
-      <li><a href="<?php echo $router->url('logout'); ?>"><?php echo _('Exit'); ?></a></li>
+      <li><a href="<?php echo $Router->url('profile'); ?>"><?php echo _('Profile'); ?></a></li>
+      <li><a href="<?php echo $Router->url('logout'); ?>"><?php echo _('Exit'); ?></a></li>
     </ul>
   </div>
   <?php } else { ?>
-  <h3><a href="<?php echo $router->url('login'); ?>"><?php echo _('Login'); ?></a>
+  <h3><a href="<?php echo $Router->url('login'); ?>"><?php echo _('Login'); ?></a>
   <small><?php echo _('If you are already registered, sign in with your username and password'); ?>.</small></h3>
-  <h3><a href="<?php echo $router->url('signup'); ?>"><?php echo _('Register'); ?></a>
+  <h3><a href="<?php echo $Router->url('signup'); ?>"><?php echo _('Register'); ?></a>
   <small><?php echo _('If you do not have an account, please register'); ?>.</small></h3>
   <?php } ?>
 </div>

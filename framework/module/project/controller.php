@@ -17,11 +17,11 @@ class ProjectController extends CoreController {
    */
   protected function login_required() 
   {
-    $user = UserModel::singleton();
-    $class_view = get_final_class_name('View');
-    $view = $class_view::singleton();
-    if (!$user->is_logged()) {
-      $view->set_msg("You must be logged in to access this section.", false);
+    $User = UserModel::singleton();
+    $view_class_name = get_final_class_name('View');
+    $View = $view_class_name::singleton();
+    if (!$User->is_logged()) {
+      $View->set_msg("You must be logged in to access this section.", false);
       UserController::loginAction();
       exit();
     }

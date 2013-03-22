@@ -19,7 +19,8 @@ require_once('cache.php');
 require_once('view.php');
 require_once('route.php');
 require_once('router.php');
-require_once('db.php');
+require_once('dblist.php');
+require_once('dbinterface.php');
 require_once('controller.php');
 require_once('application.php');
 
@@ -28,36 +29,36 @@ require_once('helpers.php');
 
 // Configuration
 require_once('config.php');
-$s = CoreConfig::get_slash(); // Slash symbol
+$slash = CoreConfig::get_slash(); // Slash symbol
 
 // Debug mode
 if (CoreConfig::$debug) {
   require_once('debug.php');
 }
 
-
-$module = CoreModule::singleton();
-$module->add_module(CoreConfig::$module_structure, null, 'CoreConfig');
 // Load modules
+$Module = CoreModule::singleton();
+$Module->add_module(CoreConfig::$module_structure, null, 'CoreConfig');
 // TODO: include only these chains of modules, what using in current route
-// TODO: add routes
-if (is_dir(CoreConfig::base_module_path())) {
-  $file_list = scandir(CoreConfig::base_module_path());
+$base_module_path = CoreConfig::base_module_path();
+if (is_dir($base_module_path)) {
+  $file_list = scandir($base_module_path);
   if ($file_list) {
     foreach ($file_list as $module_path_name) {
-      if (is_dir(CoreConfig::base_module_path().$s.$module_path_name) 
+      if (is_dir($base_module_path.$slash.$module_path_name) 
       && $module_path_name != '.' && $module_path_name != '..') {
-        if (file_exists(CoreConfig::base_module_path().$s.$module_path_name.$s.'index.php')) {
-          require_once(CoreConfig::base_module_path().$s.$module_path_name.$s.'index.php');
+        if (file_exists($base_module_path.$slash.$module_path_name.$slash.'index.php')) {
+          require_once($base_module_path.$slash.$module_path_name.$slash.'index.php');
         }
       }
     }
   }
 }
-$module->execute();
-//print_r($module);
+$Module->prepare();
+//print_r($Module);exit;
+
 // Start application
-$class_application = get_final_class_name('Application');
-$app = new $class_application();
+$application_class_name = get_final_class_name('Application');
+$Application = new $application_class_name();
 
 ?>

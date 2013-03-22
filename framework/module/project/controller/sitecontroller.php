@@ -11,18 +11,20 @@ class SiteController extends ProjectController {
 
   private static function renderPage($name, $params)
   {
-    $class_view = get_final_class_name('View');
-    $View = $class_view::singleton();
+    $view_class_name = get_final_class_name('View');
+    $View = $view_class_name::singleton();
 
     if ($params && count($params)>0) {
-      $View->render("site", "error");
+      $View->render(CoreModule::singleton()->get_class_path_name(__CLASS__), 
+        "site", "error");
       return;
     }
 
     $standard = array("faq", "terms", "about");
     $proper = array("Frequently Asked Questions", "Terms of Service", "About Us");
     $View->set_title(ucwords(str_replace($standard, $proper, $name)));
-    $View->render("site", $name);
+    $View->render(CoreModule::singleton()->get_class_path_name(__CLASS__), 
+      "site", $name);
   }
 
   public function homeAction($params = null)

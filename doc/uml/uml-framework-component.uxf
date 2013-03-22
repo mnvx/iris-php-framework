@@ -4,243 +4,209 @@
   <element>
     <type>com.umlet.element.custom.SimpleComponent</type>
     <coordinates>
-      <x>330</x>
-      <y>210</y>
-      <w>130</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Base</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.SimpleComponent</type>
-    <coordinates>
-      <x>330</x>
-      <y>310</y>
-      <w>130</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Solution</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.SimpleComponent</type>
-    <coordinates>
-      <x>330</x>
-      <y>410</y>
-      <w>130</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>Project</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>370</x>
-      <y>250</y>
-      <w>50</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;60</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>370</x>
-      <y>350</y>
-      <w>50</w>
-      <h>80</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;60</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Package</type>
-    <coordinates>
-      <x>300</x>
-      <y>160</y>
-      <w>350</w>
-      <h>350</h>
-    </coordinates>
-    <panel_attributes>Project</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.custom.SimpleComponent</type>
-    <coordinates>
-      <x>70</x>
-      <y>310</y>
-      <w>130</w>
+      <x>110</x>
+      <y>270</y>
+      <w>180</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>Core</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>200</x>
-      <y>310</y>
-      <w>120</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;100;30</additional_attributes>
-  </element>
-  <element>
     <type>com.umlet.element.Package</type>
     <coordinates>
-      <x>40</x>
-      <y>260</y>
-      <w>190</w>
+      <x>80</x>
+      <y>220</y>
+      <w>240</w>
       <h>150</h>
     </coordinates>
     <panel_attributes>Framework</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <type>com.umlet.element.Note</type>
-    <coordinates>
-      <x>500</x>
-      <y>210</y>
-      <w>130</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>Base solution
-(it may not be!)
-bg=light_gray</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Note</type>
-    <coordinates>
-      <x>500</x>
-      <y>310</y>
-      <w>130</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>Industry solution 
-(it may not be!)
-bg=light_gray</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>430</x>
-      <y>200</y>
-      <w>90</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30;40;70;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>430</x>
-      <y>300</y>
-      <w>90</w>
-      <h>60</h>
-    </coordinates>
-    <panel_attributes/>
-    <additional_attributes>30;40;70;30</additional_attributes>
-  </element>
-  <element>
     <type>com.umlet.element.Package</type>
     <coordinates>
-      <x>720</x>
-      <y>160</y>
-      <w>190</w>
-      <h>350</h>
+      <x>380</x>
+      <y>120</y>
+      <w>470</w>
+      <h>450</h>
     </coordinates>
-    <panel_attributes>Plugins</panel_attributes>
+    <panel_attributes>Modules</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>620</x>
-      <y>310</y>
-      <w>120</w>
+      <x>290</x>
+      <y>270</y>
+      <w>110</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;100;30</additional_attributes>
+    <additional_attributes>30;30;90;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Note</type>
     <coordinates>
-      <x>640</x>
-      <y>550</y>
-      <w>270</w>
-      <h>80</h>
+      <x>470</x>
+      <y>600</y>
+      <w>370</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>Plugin kinds:
-1. Overriding methods of Project
-2. New fields
-3. Helps functions for other plugins
+1. Overriding or/and extend methods of core
+2. Overriding or/and extend methods or some module
+3. Some pages (part of MVC structure)
+4. New class
+5. New fields
+6. Helps functions for other modules
 bg=light_gray</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>790</x>
-      <y>480</y>
+      <x>630</x>
+      <y>540</y>
       <w>50</w>
-      <h>90</h>
+      <h>80</h>
     </coordinates>
     <panel_attributes/>
-    <additional_attributes>30;30;30;70</additional_attributes>
+    <additional_attributes>30;30;30;60</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.custom.SimpleComponent</type>
     <coordinates>
-      <x>750</x>
-      <y>210</y>
-      <w>130</w>
+      <x>410</x>
+      <y>170</y>
+      <w>180</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>Plugin1
-/example/</panel_attributes>
+    <panel_attributes>CRMBaseModule
+/example (1):/
+/CRM Base module/</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.custom.SimpleComponent</type>
     <coordinates>
-      <x>750</x>
-      <y>300</y>
-      <w>130</w>
+      <x>410</x>
+      <y>270</y>
+      <w>180</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>Plugin2
-/example/</panel_attributes>
+    <panel_attributes>CRMSolutionModule
+/example (2):/
+/CRM Solution/</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.custom.SimpleComponent</type>
     <coordinates>
-      <x>750</x>
-      <y>400</y>
-      <w>130</w>
+      <x>410</x>
+      <y>370</y>
+      <w>180</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>Plugin3
-/example/</panel_attributes>
+    <panel_attributes>CRMProjectModule
+/example (2):/
+/CRM Project/</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>790</x>
-      <y>340</y>
+      <x>470</x>
+      <y>310</y>
       <w>50</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>30;30;30;60</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>610</x>
+      <y>170</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>CalendarPages
+/example (3):/
+/Some pages/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>470</x>
+      <y>210</y>
+      <w>50</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;60</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>610</x>
+      <y>270</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>BaseMenu
+/example (4):/
+/Base menu/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>610</x>
+      <y>370</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>CalendarMenu
+/example (2):/
+/Menu with calendar/</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>670</x>
+      <y>310</y>
+      <w>50</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;60</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>760</x>
+      <y>170</y>
+      <w>80</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>30;30;60;30;60;230;30;230</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.SimpleComponent</type>
+    <coordinates>
+      <x>610</x>
+      <y>470</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>SomeHelpers
+/example (6):/
+/Some helpers/</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

@@ -18,8 +18,8 @@ class CoreController {
    */
   protected function _redirect_to($location) {
     $class_router = get_final_class_name('Router');
-    $router = $class_router::singleton();
-    $location = $router->prefix_url().'/'.$location;
+    $Router = $class_router::singleton();
+    $location = $Router->prefix_url().'/'.$location;
     header("Location: $location");
     exit();
   }

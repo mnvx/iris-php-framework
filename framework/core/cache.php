@@ -70,8 +70,8 @@ class CoreCache {
     }
     // Get the Router object
     $class_router = get_final_class_name('Router');
-    $current_route = $class_router::singleton()->get_current_route();
-    $route = $current_route != null ? $current_route->get_route() : array();
+    $CurrentRoute = $class_router::singleton()->get_current_route();
+    $route = $CurrentRoute != null ? $CurrentRoute->get_route() : array();
     $cache_this_page = array_key_exists('caching', $route) ? $route['caching'] : false;
 
     // If this page isn't in the "Do not cache" list, and caching is enabled, either

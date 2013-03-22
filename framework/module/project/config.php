@@ -25,18 +25,15 @@ class ProjectConfig extends CoreConfig {
         'class' => 'ProjectApplication', 
         'parent' => 'CoreApplication'
       ),
-      'Controller' => array(
-        'class' => 'ProjectController', 
-        'parent' => 'CoreController'
+      'ProjectController' => array(
+        'class' => 'ProjectController'
       ),
-      'DB' => array(
-        'class' => 'ProjectDB', 
-        'parent' => 'CoreDB'
+      'OptionsController' => array(
+        'class' => 'OptionsController'
       ),
-      'UserModel' => null,
-      'OptionsController' => null,
-      'SiteController' => null,
-      'UserController' => null,
+      'SiteController' => array(
+        'class' => 'SiteController'
+      ),
     ),
   );
 
@@ -73,46 +70,6 @@ class ProjectConfig extends CoreConfig {
       'action' => 'terms',
       'caching' => true,
     ),
-    'options' => array(
-      'pattern' =>'/options', 
-      'controller' => 'options', 
-      'action' => 'index',
-    ),
-    'profile' => array(
-      'pattern' =>'/user', 
-      'controller' => 'user', 
-      'action' => 'index',
-    ),
-    'profile_edit' => array(
-      'pattern' =>'/user/edit', 
-      'controller' => 'user', 
-      'action' => 'edit',
-    ),
-    'login' => array(
-      'pattern' =>'/login', 
-      'controller' => 'user', 
-      'action' => 'login',
-    ),
-    'logout' => array(
-      'pattern' =>'/logout', 
-      'controller' => 'user', 
-      'action' => 'logout',
-    ),
-    'signup' => array(
-      'pattern' =>'/signup', 
-      'controller' => 'user', 
-      'action' => 'register',
-      'caching' => true,
-    ),
-    // Route with parameters example
-    'user' => array(
-      'pattern' =>'/users/{id}',
-      'controller' => 'user', 
-      'action' => 'info',
-      'requirements' => array(
-        'id' => '[\d]{1,8}',
-      ),
-    ),
     /*
     // Format for links like /site/about
     'controller_action' => array(
@@ -120,15 +77,6 @@ class ProjectConfig extends CoreConfig {
     ),
     */
   );
-
-  /**
-   * Project path
-   * @deprecated
-   */
-  public static function project_path()
-  {
-    return __DIR__;
-  }
   
   /**
    * Module path (current module path)

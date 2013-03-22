@@ -10,6 +10,7 @@ Fast MVC framework with transparent architecture and adaptive desigh for program
 * Caching
 * High performance
 * Friendly URLs
+* Module architecture
 * Easy to use
 * Easy to update
 
@@ -27,16 +28,17 @@ Mobile version:
 
 ## Catalog structure
 * cache - cached pages
-* core - core files, please, do not edit them in your project, later you can update this folder, when new version of framework will be released
+* core - core files, please, do not edit them in your project, later you can replace this folder, when new version of framework will be released
 * data - data files (database for sqlite and other possible files)
-* project - your project files, you can edit this files as you need
-  - model - files for work with data
-  - controller - files for processing of user actions
-  - view - templates for pages
 * locale - translations, you can edit whem with Poedit editor, [more info about translations](http://php.net/manual/en/book.gettext.php "PHP gettext")
-* plugins - plugins
+* module - custom and system modules
+  - module_path - your project files, you can edit this files as you need
+    + model - files for work with data
+    + controller - files for processing of user actions
+    + view - templates for pages
 * static - css, js files, images and other static information
 * temp - temp files
+* theme - templates, page design
 
 ## Installation
 1. Copy files into your web files folder 

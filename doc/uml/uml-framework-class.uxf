@@ -4,8 +4,8 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>256</x>
-      <y>112</y>
+      <x>264</x>
+      <y>256</y>
       <w>208</w>
       <h>96</h>
     </coordinates>
@@ -23,8 +23,8 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>768</x>
-      <y>112</y>
+      <x>776</x>
+      <y>56</y>
       <w>208</w>
       <h>432</h>
     </coordinates>
@@ -67,8 +67,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>440</x>
-      <y>96</y>
+      <x>448</x>
+      <y>240</y>
       <w>344</w>
       <h>40</h>
     </coordinates>
@@ -78,8 +78,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>256</x>
-      <y>248</y>
+      <x>264</x>
+      <y>392</y>
       <w>208</w>
       <h>360</h>
     </coordinates>
@@ -90,6 +90,7 @@ _+set_locale(language)_
 #_controller_name
 #_controller_name_ucfirst
 #_action
+#_module_path_name
 #_current_route_name
 #_url_prefix
 #_url_prefix_array
@@ -100,6 +101,7 @@ _+set_locale(language)_
 +get_controller_name()
 +get_controller_class_name()
 +get_action_name()
++get_module_path_name()
 +get_params()
 +is_route_found()
 +map(name, route)
@@ -117,21 +119,21 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>184</x>
-      <y>128</y>
-      <w>88</w>
-      <h>40</h>
+      <x>136</x>
+      <y>240</y>
+      <w>144</w>
+      <h>72</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>24;24;72;24</additional_attributes>
+    <additional_attributes>24;24;24;56;128;56</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>0</x>
-      <y>112</y>
+      <x>8</x>
+      <y>56</y>
       <w>208</w>
-      <h>200</h>
+      <h>208</h>
     </coordinates>
     <panel_attributes>CoreCache
 --
@@ -155,19 +157,19 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>184</x>
-      <y>256</y>
-      <w>88</w>
-      <h>40</h>
+      <x>72</x>
+      <y>240</y>
+      <w>208</w>
+      <h>200</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>72;24;24;24</additional_attributes>
+    <additional_attributes>192;184;24;184;24;24</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>328</x>
-      <y>184</y>
+      <x>336</x>
+      <y>328</y>
       <w>40</w>
       <h>80</h>
     </coordinates>
@@ -177,8 +179,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>0</x>
-      <y>336</y>
+      <x>8</x>
+      <y>480</y>
       <w>208</w>
       <h>48</h>
     </coordinates>
@@ -191,8 +193,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>184</x>
-      <y>336</y>
+      <x>192</x>
+      <y>480</y>
       <w>88</w>
       <h>40</h>
     </coordinates>
@@ -202,12 +204,12 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>768</x>
-      <y>560</y>
+      <x>776</x>
+      <y>576</y>
       <w>208</w>
-      <h>120</h>
+      <h>112</h>
     </coordinates>
-    <panel_attributes>CoreDB
+    <panel_attributes>CoreDBList
 --
 #_msg
 --
@@ -221,8 +223,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>0</x>
-      <y>408</y>
+      <x>8</x>
+      <y>552</y>
       <w>208</w>
       <h>200</h>
     </coordinates>
@@ -248,8 +250,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>184</x>
-      <y>416</y>
+      <x>192</x>
+      <y>560</y>
       <w>88</w>
       <h>40</h>
     </coordinates>
@@ -259,8 +261,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>512</x>
-      <y>384</y>
+      <x>520</x>
+      <y>528</y>
       <w>208</w>
       <h>296</h>
     </coordinates>
@@ -293,8 +295,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>80</x>
-      <y>584</y>
+      <x>88</x>
+      <y>728</y>
       <w>448</w>
       <h>72</h>
     </coordinates>
@@ -304,21 +306,21 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>696</x>
-      <y>424</y>
-      <w>88</w>
-      <h>40</h>
+      <x>704</x>
+      <y>464</y>
+      <w>192</w>
+      <h>88</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>72;24;24;24</additional_attributes>
+    <additional_attributes>176;24;176;72;24;72</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>512</x>
-      <y>144</y>
+      <x>520</x>
+      <y>280</y>
       <w>208</w>
-      <h>176</h>
+      <h>200</h>
     </coordinates>
     <panel_attributes>CoreRoute
 --
@@ -327,12 +329,14 @@ _+set_locale(language)_
 #_is_matched: boolean
 #_controller_name
 #_action_name
+#_module_path_name
 --
 +get_route()
 +get_params()
 +is_matched()
 +get_controller_name()
 +get_action_name()
++get_module_path_name()
 --
 *-- Url parsing*</panel_attributes>
     <additional_attributes/>
@@ -340,8 +344,8 @@ _+set_locale(language)_
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>440</x>
-      <y>248</y>
+      <x>448</x>
+      <y>392</y>
       <w>88</w>
       <h>40</h>
     </coordinates>
@@ -352,19 +356,19 @@ m1=0..n</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>440</x>
-      <y>328</y>
+      <x>448</x>
+      <y>416</y>
       <w>344</w>
-      <h>40</h>
+      <h>96</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>328;24;24;24</additional_attributes>
+    <additional_attributes>328;24;304;24;304;80;24;80</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>440</x>
-      <y>528</y>
+      <x>448</x>
+      <y>672</y>
       <w>88</w>
       <h>40</h>
     </coordinates>
@@ -374,12 +378,77 @@ m1=0..n</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>80</x>
-      <y>64</y>
+      <x>88</x>
+      <y>8</y>
       <w>808</w>
       <h>64</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
     <additional_attributes>792;48;792;24;24;24;24;48</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>264</x>
+      <y>56</y>
+      <w>288</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>CoreModule
+--
+#_modules
+#_class_tree
+#_class_final
+--
++add_module(module, path_name, config_class_name, function)
++prepare()
++execute()
++get_final_class_name(base_class_name)
++is_final(class_name)
++get_config_class_names()
+--
+*-- Module manage*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>336</x>
+      <y>192</y>
+      <w>40</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.</panel_attributes>
+    <additional_attributes>24;24;24;64</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>776</x>
+      <y>728</y>
+      <w>208</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>CoreDBInterface
+--
+#_DBList
+--
++set_db_list($DBList)
++get_msg()
+--
+*-- Template for DB Interface*</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>856</x>
+      <y>664</y>
+      <w>40</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+</panel_attributes>
+    <additional_attributes>24;64;24;24</additional_attributes>
   </element>
 </diagram>

@@ -3,7 +3,7 @@
   $class_config = get_final_class_name('Config');
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $router->get_url_prefix_param_value('locale'); ?>">
+<html lang="<?php echo $Router->get_url_prefix_param_value('locale'); ?>">
 <head>
   <title><?php echo $view->escape($view->page_title()); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -15,9 +15,8 @@
 
 <body>
 
-  <h1><?php echo _($class_config::$app_name); ?></h1>
+  <h1><a class="brand" href="<?php echo $Router->url('home'); ?>"><?php echo _($Config::$app_name); ?></a></h1>
   <p>Page not found</p>
-  <?php include $view->get_view_file_name('debug'); ?>
-  
+    
 </body>
 </html>

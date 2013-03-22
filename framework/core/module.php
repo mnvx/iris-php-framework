@@ -29,12 +29,13 @@ class CoreModule {
    * @param $config_class_name = null Name of the the class with configuration 
    *   (with routes description)
    */
-  final public function add_module($module, $path_name = null, $config_class_name = null)
+  final public function add_module($module, $path_name = null, $config_class_name = null, $init_function = null)
   {
     if (!isset($this->_modules[$module['name']])) {
       $this->_modules[$module['name']] = $module;
       $this->_modules[$module['name']]['path_name'] = $path_name;
       $this->_modules[$module['name']]['config_class_name'] = $config_class_name;
+      $this->_modules[$module['name']]['init_function'] = $init_function;
     }
     else {
       throw new \Exception(_('Modules with dublicate name was found'));
@@ -47,7 +48,7 @@ class CoreModule {
    * @param $base_class_name Name of class without prefix
    * @param $parent_class_name Name of parent class
    */
-  final public function execute(&$tree_elem = null, $base_class_name = null, $parent_class_name = null)
+  final public function prepare(&$tree_elem = null, $base_class_name = null, $parent_class_name = null)
   {
     if ($base_class_name == null) {
       $tree_elem = &$this->_class_tree;
@@ -73,7 +74,7 @@ class CoreModule {
                 throw new \Exception(_('Classes with dublicate name was found').': "'.
                   $class_info['class'].'"');
               }
-              $this->execute(
+              $this->prepare(
                 $tree_elem[$base_class_key][$class_info['class']],//['child'], 
                 $base_class_key, 
                 $class_info['class']
@@ -105,12 +106,24 @@ class CoreModule {
             throw new \Exception(_('Classes with dublicate name was found').': "'.
               $module['classes'][$base_class_name]['class'].'"');
           }
-          $this->execute(
+          $this->prepare(
             $tree_elem[$module['classes'][$base_class_name]['class']],//['child'], 
             $base_class_name, 
             $module['classes'][$base_class_name]['class']
           );    
         }
+      }
+    }
+  }
+
+  /**
+   * Execute initialisation methods of registered classes
+   */
+  final public function execute()
+  {
+    foreach ($this->_modules as $module_name => $module) {
+      if ($module['init_function']) {
+        call_user_func($module['init_function']);
       }
     }
   }
@@ -143,8 +156,8 @@ class CoreModule {
   }
 
   /**
-   * Check what class is final
-   * @return boolean
+   * Return list of classes
+   * @return array (ClassName => PathName)
    */
   final public function get_config_class_names()
   {
@@ -159,6 +172,22 @@ class CoreModule {
     return $config_classes;
   }
 
+  /**
+   * Return path of module, where specified class
+   * @return array (ClassName => PathName)
+   */
+  final public function get_class_path_name($class_name)
+  {
+    $short_class_name = str_replace('IrisPHPFramework\\', '', $class_name);
+    foreach ($this->_modules as $module_name => $module) {
+      foreach ($module['classes'] as $class_info) {
+        if (isset($class_info['class']) && $class_info['class'] == $short_class_name) {
+          return $module['path_name'];
+        }
+      }
+    }
+    return null;
+  }
 }
 
 ?>

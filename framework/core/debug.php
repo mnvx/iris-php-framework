@@ -99,8 +99,8 @@ class CoreDebug {
   public function route_info()
   {
     $class_router = get_final_class_name('Router');
-    $current_route = $class_router::singleton()->get_current_route();
-    $route = $current_route != null ? $current_route->get_route() : array();
+    $CurrentRoute = $class_router::singleton()->get_current_route();
+    $route = $CurrentRoute != null ? $CurrentRoute->get_route() : array();
     return $route;
   }
 

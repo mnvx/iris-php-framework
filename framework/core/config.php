@@ -28,8 +28,11 @@ class CoreConfig {
       'Controller' => array(
         'class' => 'CoreController'
       ),
-      'DB' => array(
-        'class' => 'CoreDB'
+      'DBList' => array(
+        'class' => 'CoreDBList'
+      ),
+      'DBInterface' => array(
+        'class' => 'CoreDBInterface'
       ),
       'Cache' => array(
         'class' => 'CoreCache'
@@ -56,12 +59,14 @@ class CoreConfig {
   //(string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-rc2';
   // Change for every commit in develop branch (int)
-  public static $release = 11;
+  public static $release = 10;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 
     'Fast MVC framework, multilingual, with adaptive desigh support';
   public static $app_keywords = 'framework, mvc, php';
+
+  public static $theme = 'classic';
 
   // '' if files disposed in root catalog of web files. 
   // This property will be overriden in Config
@@ -115,15 +120,6 @@ class CoreConfig {
   public static function base_module_path()
   {
     return static::base_path().static::get_slash().'module';
-  }
-
-  /**
-   * Project path
-   * @deprecated
-   */
-  public static function project_path()
-  {
-    return static::base_path().static::get_slash().'module'.static::get_slash().'project';
   }
 
   /**

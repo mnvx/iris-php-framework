@@ -48,26 +48,32 @@ class CoreView {
   /**
    * Get file name for view
    *
+   * @param   $module_path_name      The name of the module path
    * @param   $model      The name of the view/model file
    * @param   $action     When specified, name of the file ($model used as dir name).
    *                      This param is optional.
    */
-  public function get_view_file_name($model, $action = null) 
+  public function get_view_file_name($module_path_name, $model, $action = null) 
   {
     $class_config = get_final_class_name('Config');
 
+    $slash = $class_config::get_slash();
+    $module_full_path = $module_path_name 
+      ? $class_config::base_module_path().$slash.$module_path_name 
+      : CoreConfig::module_path();
+
     // If an action is specified, include the specific action.
-    $file = $class_config::project_path() . "/view/" . $model;
+    $file = $module_full_path.$slash."view".$slash.$model;
     if ($action) {
-      $file .= '/'.strtolower($action);
+      $file .= $slash.strtolower($action);
     }
 
     $class_router = get_final_class_name('Router');
-    $router = $class_router::singleton();
-    $format = $router->get_url_prefix_param_value('format');
+    $Router = $class_router::singleton();
+    $format = $Router->get_url_prefix_param_value('format');
     $file_with_format = $file.($format ? '-'.$format : '').'.html.php';
     $file .= '.html.php';
-    
+
     // Try to return a file that is common to different formats
     if (file_exists($file)) {
       return $file;
@@ -76,7 +82,7 @@ class CoreView {
     elseif (file_exists($file_with_format)) {
       return $file_with_format;
     }
-    
+
     return null;
   }
 
@@ -87,13 +93,14 @@ class CoreView {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  protected function _set_view_params($model, $action = null) 
+  protected function _set_view_params($module_path_name, $model, $action = null) 
   {
-    $this->_inner_file = $this->get_view_file_name($model, $action);
-    
+    $this->_inner_file = $this->get_view_file_name($module_path_name, $model, $action);
+
     if ($action && !file_exists($this->_inner_file)) {
       $class_config = get_final_class_name('Config');
-      $this->_inner_file = $this->get_view_file_name($class_config::$router_default_controller, 'error');
+      $this->_inner_file = $this->get_view_file_name(
+        null, $class_config::$router_default_controller, 'error');
     }
   }
 
@@ -107,7 +114,7 @@ class CoreView {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  protected function _load($file, $action = null) 
+  protected function _load($module_path, $file, $action = null) 
   {
     $class_router = get_final_class_name('Router');
     $class_debug = get_final_class_name('Debug');
@@ -118,12 +125,16 @@ class CoreView {
       $$name = $object;
     }
 
-    // core objects using in including view
+    // Core objects using in including view
     $view = $this;
-    $router = $class_router::singleton();
-    $debug = $class_debug::singleton();
+    $Router = $class_router::singleton();
+    $Debug = $class_debug::singleton();
 
-    $file = $this->get_view_file_name($file, $action);
+    // Template file
+    $slash = $class_config::get_slash();
+    $format = $Router->get_url_prefix_param_value('format');
+    $theme = $class_config::$theme;
+    $file = $class_config::base_path().$slash.'theme'.$slash.$theme.$slash.$file.'-'.$format.'.html.php';
 
     // Load the view file only if it exists.
     if (file_exists($file) && file_exists($this->_inner_file) && $this->_inner_file != $file) { 
@@ -133,7 +144,7 @@ class CoreView {
       include_once $class_config::core_path(). "/view/404.html.php";
     }
   }
-  
+
   /**
    * Renders default template views, based on the model and action supplied (including
    * header and footer views).
@@ -142,11 +153,11 @@ class CoreView {
    * @param   $action             When specified, name of the file ($file used as dir name)
    * @param   $caching_enabled    (optional): When specified, name of the file ($file used as dir name)
    */
-  public function render($model, $action = null) 
+  public function render($path_name, $model, $action = null) 
   {
-    $this->_set_view_params($model, $action);
-    $this->_load("layout");
-   }
+    $this->_set_view_params($path_name, $model, $action);
+    $this->_load($path_name, "layout");
+  }
 
   /**
    * Used to assign variables that can be used in the template files.
@@ -157,14 +168,14 @@ class CoreView {
   public function assign($name, $value) 
   {
     $this->_variables[$name] = $value;
-    
+
     //Если устанавливаем язык, то выполним переключение языка
     if ($name == 'locale') {
       $class_config = get_final_class_name('Config');
       $class_config::set_locale($value);
     }
   }
-  
+
   /**
    * Get value assigned to template
    *
@@ -177,7 +188,7 @@ class CoreView {
     }
     return null;
   }
-  
+
   /**
    * Used to assign the page title of the rendered HTML file.
    *
@@ -219,8 +230,8 @@ class CoreView {
   {
     if ($this->_msg) {
       $class_router = get_final_class_name('Router');
-      $router = $class_router::singleton();
-      $format = $router->get_url_prefix_param_value('format');
+      $Router = $class_router::singleton();
+      $format = $Router->get_url_prefix_param_value('format');
       $class = $format == 'd' ? 'alert' : 'status message';
       
       if ($this->_msg_type) {
@@ -234,7 +245,7 @@ class CoreView {
     }
     return null;
   }
-  
+
   /**
    * Return safe for output html text
    * 

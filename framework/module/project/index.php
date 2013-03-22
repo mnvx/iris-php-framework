@@ -9,11 +9,12 @@ namespace IrisPHPFramework;
  * @license MIT, http://opensource.org/licenses/mit-license.php
  */
 
+$slash = CoreConfig::get_slash();
+
 // Configuration
-$s = CoreConfig::get_slash();
-if (file_exists(CoreConfig::project_path().$s.'config.php')) {
-  require_once(CoreConfig::project_path().$s.'config.php');
-}
+require_once(__DIR__.$slash.'config.php');
+
+$module_path = ProjectConfig::module_path();
 
 // Debug mode
 if (ProjectConfig::$debug) {
@@ -23,19 +24,18 @@ if (ProjectConfig::$debug) {
     require_once('debug.php');
   }
 
-  if (file_exists(ProjectConfig::module_path().$s.'debug.php')) {
-    require_once(ProjectConfig::module_path().$s.'debug.php');
+  if (file_exists($module_path.$slash.'debug.php')) {
+    require_once($module_path.$slash.'debug.php');
   }
 }
 
-require_once(ProjectConfig::module_path().$s.'model'.$s.'user.php');
-require_once(ProjectConfig::module_path().$s.'controller.php');
-require_once(ProjectConfig::module_path().$s.'application.php');
-require_once(ProjectConfig::module_path().$s.'db.php');
+//require_once($module_path.$slash.'model'.$slash.'user.php');
+require_once($module_path.$slash.'controller.php');
+require_once($module_path.$slash.'application.php');
 
 // Register current module
-$module = CoreModule::singleton();
-$module->add_module(ProjectConfig::$module_structure, 
-  basename(ProjectConfig::module_path()), 'ProjectConfig');
+$Module = CoreModule::singleton();
+$Module->add_module(ProjectConfig::$module_structure, 
+  basename($module_path), 'ProjectConfig');
 
 ?>

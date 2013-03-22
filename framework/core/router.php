@@ -33,7 +33,7 @@ class CoreRouter {
 
   public function __construct()
   {
-    $class_config = get_final_class_name('Config');
+    $Config = get_final_class_name('Config');
     $request = array_key_exists('REQUEST_URI', $_SERVER) ? $_SERVER['REQUEST_URI'] : '';
     $pos = strpos($request, '?');
     if ($pos) {
@@ -41,27 +41,27 @@ class CoreRouter {
     }
 
     //Учтём base_url
-    if ($class_config::$base_url) {
-      $urllen = strlen($request)-strlen($class_config::$base_url)-1;
+    if ($Config::$base_url) {
+      $urllen = strlen($request)-strlen($Config::$base_url)-1;
       $request = substr($request, -$urllen, $urllen);
     }
     $request_array = explode("/", $request);
 
     //Если в url не прописаны параметры по умолчанию (язык и формат), то укажем их в url, 
     //который передадим далее в контроллер
-    $class_view = get_final_class_name('View');
-    $view = $class_view::singleton();
+    $view_class_name = get_final_class_name('View');
+    $View = $view_class_name::singleton();
     $this->url_prefix = '';
     $this->url_prefix_array = array();
-    foreach ($class_config::$url_prefix_format as $param => $format) {
+    foreach ($Config::$url_prefix_format as $param => $format) {
       if (array_key_exists(0, $request_array) && preg_match($format['mask'], $request_array[0])) {
-        $view->assign($param, $request_array[0]);
+        $View->assign($param, $request_array[0]);
         $this->url_prefix .= '/'.$request_array[0];
         $this->url_prefix_array[$param] = $request_array[0];
         array_shift($request_array);
       }
       else {
-        $view->assign($param, $format['default']);
+        $View->assign($param, $format['default']);
       }
     }
     $request = implode('/', $request_array);
@@ -79,11 +79,11 @@ class CoreRouter {
    */
   public function get_url_prefix_param_value($param_name)
   {
-    $class_config = get_final_class_name('Config');
+    $Config = get_final_class_name('Config');
     if (array_key_exists($param_name, $this->url_prefix_array)) {
       return $this->url_prefix_array[$param_name];
     }
-    return $class_config::$url_prefix_format[$param_name]['default'];
+    return $Config::$url_prefix_format[$param_name]['default'];
   }
 
   /**
@@ -95,12 +95,12 @@ class CoreRouter {
    */
   public function prefix_url($params = null, $current = false)
   {
-    $class_config = get_final_class_name('Config');
+    $Config = get_final_class_name('Config');
     if ($params == null) {
-      return $class_config::$base_url.$this->url_prefix.($current ? $this->_request_uri : '');
+      return $Config::$base_url.$this->url_prefix.($current ? $this->_request_uri : '');
     }
-    $url = $class_config::$base_url;
-    foreach ($class_config::$url_prefix_format as $prefix_name => $prefix_value) {
+    $url = $Config::$base_url;
+    foreach ($Config::$url_prefix_format as $prefix_name => $prefix_value) {
       //Try to get default URL parameters from current url
       if (array_key_exists($prefix_name, $this->url_prefix_array)) {
         if (!array_key_exists($prefix_name, $params)) {
@@ -195,8 +195,9 @@ class CoreRouter {
    */
   public function map($name, $route, $module_path_name = null)
   {
-    $class_route = get_final_class_name('Route');
-    $this->_routes[$name] = new $class_route($route, $this->_request_uri, $module_path_name);
+    $route_class_name = get_final_class_name('Route');
+    $this->_routes[$name] = 
+      new $route_class_name($route, $this->_request_uri, $module_path_name);
     if ($this->_routes[$name]->is_matched()) {
       $this->_current_route_name = $name;
       $this->_module_path_name = $module_path_name;
@@ -238,20 +239,20 @@ class CoreRouter {
    * Set current route parameters
    * @param class::Route Route object
    */
-  protected function _set_route($route)
+  protected function _set_route($Route)
   {
-    $class_config = get_final_class_name('Config');
+    $Config = get_final_class_name('Config');
 
-    if ($route) {
-      $this->_controller_name = $route->get_controller_name();
-      $this->_action_name = $route->get_action_name();    
-      $this->_module_path_name = $route->get_module_path_name();
+    if ($Route) {
+      $this->_controller_name = $Route->get_controller_name();
+      $this->_action_name = $Route->get_action_name();    
+      $this->_module_path_name = $Route->get_module_path_name();
     }
   
     // Not defined controller or action in route
     if (empty($this->_controller_name) || empty($this->_action_name)) {
-      $this->_controller_name = $class_config::$router_default_controller;
-      $this->_action_name = $class_config::$router_default_action;
+      $this->_controller_name = $Config::$router_default_controller;
+      $this->_action_name = $Config::$router_default_action;
       $this->_module_path_name = null;
     }
 
