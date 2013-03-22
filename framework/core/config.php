@@ -59,7 +59,7 @@ class CoreConfig {
   //(string, http://habrahabr.ru/post/118756/)
   public static $version = '1.0-rc2';
   // Change for every commit in develop branch (int)
-  public static $release = 10;
+  public static $release = 11;
 
   public static $app_name = 'Iris PHP Framework';
   public static $app_description = 
