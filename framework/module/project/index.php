@@ -15,13 +15,14 @@ $slash = CoreConfig::get_slash();
 require_once(__DIR__.$slash.'config.php');
 
 $module_path = ProjectConfig::module_path();
+$core_path = CoreConfig::module_path();
 
 // Debug mode
 if (ProjectConfig::$debug) {
 
   // Debug module, if it was not be included in core
   if (ProjectConfig::$debug && !CoreConfig::$debug) {
-    require_once('debug.php');
+    require_once($core_path.$slash.'debug.php');
   }
 
   if (file_exists($module_path.$slash.'debug.php')) {

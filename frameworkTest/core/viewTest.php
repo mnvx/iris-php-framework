@@ -1,16 +1,9 @@
 <?php
 namespace IrisPHPFramework;
 
-require_once 'framework/core/view.php';
-
-
+$test = true;
 require_once 'framework/core/config.php';
-require_once 'framework/core/helpers.php';
-require_once 'framework/core/controller.php';
-require_once 'framework/core/singleton.php';
-require_once 'framework/core/application.php';
-require_once 'framework/project/controller.php';
-require_once 'framework/project/model/user.php';
+require_once 'framework/core/index.php';
 
 
 /**
@@ -58,10 +51,10 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
 
     $view = $class_view::singleton();
     
-    $this->assertNull($view->get_view_file_name('model'));
-    $this->assertEquals($class_config::project_path() . "/view/layout-d.html.php", 
-      $view->get_view_file_name('layout'));
-    $this->assertEquals($class_config::project_path() . "/view/site/about.html.php", 
+    $this->assertNull($view->get_view_file_name('model', ''));
+    $this->assertEquals(CoreConfig::module_path() . "/view/layout-d.html.php", 
+      $view->get_view_file_name('project', 'site'));
+    $this->assertEquals($class_config::module_path() . "/view/site/about.html.php", 
       $view->get_view_file_name('site', 'about'));
     $this->assertNull($view->get_view_file_name('site'));
     
@@ -82,22 +75,22 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
     $user_model = UserModel::singleton();
     $view->register_custom_object('user', $user_model);
 
-    $view->render('model');
+    $view->render('model', '');
     $this->assertNull($view->get_inner_file_name());
 
-    $view->render('layout');
-    $this->assertEquals($class_config::project_path() . "/view/layout-d.html.php", 
+    $view->render('project', 'site');
+    $this->assertEquals($class_config::module_path() . "/view/layout-d.html.php", 
       $view->get_inner_file_name());
 
     $view->render('site', 'about');
-    $this->assertEquals($class_config::project_path() . "/view/site/about.html.php", 
+    $this->assertEquals($class_config::module_path() . "/view/site/about.html.php", 
       $view->get_inner_file_name());
 
     $view->render('site');
     $this->assertNull($view->get_inner_file_name());
 
     $view->render('not_exists', 'about');
-    $this->assertEquals($class_config::project_path() . "/view/site/error.html.php", 
+    $this->assertEquals($class_config::module_path() . "/view/site/error.html.php", 
       $view->get_inner_file_name());
 
     $view->destroy();

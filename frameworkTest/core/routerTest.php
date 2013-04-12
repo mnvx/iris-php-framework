@@ -1,12 +1,10 @@
 <?php
 namespace IrisPHPFramework;
 
-require_once 'framework/core/singleton.php';
-require_once 'framework/core/router.php';
-require_once 'framework/core/helpers.php';
+$test = true;
+require_once 'test.php';
 require_once 'framework/core/config.php';
-require_once 'framework/core/view.php';
-require_once 'framework/project/config.php';
+require_once 'framework/core/index.php';
 
 /**
  * Router
@@ -18,11 +16,15 @@ require_once 'framework/project/config.php';
 
 class CoreRouterTest extends \PHPUnit_Framework_TestCase {
 
+  use Test;
+
   public function __construct()
   {
     if (!session_id()) {
       session_start();
     }
+
+    $this->_init();
   }
 
   /**
@@ -36,27 +38,22 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   {
     $class_config = get_final_class_name('Config');
 
-    $router = CoreRouter::singleton();
+    $this->_update_route();
     $this->assertEquals($class_config::$url_prefix_format['format']['default'], 
-      $router->get_url_prefix_param_value('format'));
+      $this->_Router->get_url_prefix_param_value('format'));
     $this->assertEquals($class_config::$url_prefix_format['locale']['default'], 
-      $router->get_url_prefix_param_value('locale'));
-    $router->destroy();
+      $this->_Router->get_url_prefix_param_value('locale'));
     
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/m/user';
-    $router = CoreRouter::singleton();
-    $this->assertEquals('m', $router->get_url_prefix_param_value('format'));
+    $this->_update_route($class_config::$base_url.'/m/user');
+    $this->assertEquals('m', $this->_Router->get_url_prefix_param_value('format'));
     $this->assertEquals($class_config::$url_prefix_format['locale']['default'], 
-      $router->get_url_prefix_param_value('locale'));
-    $router->destroy();
+      $this->_Router->get_url_prefix_param_value('locale'));
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/user?name=mnv';
-    $router = CoreRouter::singleton();
+    $this->_update_route($class_config::$base_url.'/user?name=mnv');
     $this->assertEquals($class_config::$url_prefix_format['format']['default'], 
-      $router->get_url_prefix_param_value('format'));
+      $this->_Router->get_url_prefix_param_value('format'));
     $this->assertEquals($class_config::$url_prefix_format['locale']['default'], 
-      $router->get_url_prefix_param_value('locale'));
-    $router->destroy();
+      $this->_Router->get_url_prefix_param_value('locale'));
   }
 
   /**
@@ -70,54 +67,50 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   {
     $class_config = get_final_class_name('Config');
 
-    $router = CoreRouter::singleton();
+    $this->_update_route();
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url());
+      $this->_Router->prefix_url());
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url(array('format' => 'd')));
+      $this->_Router->prefix_url(array('format' => 'd')));
     $this->assertEquals($class_config::$base_url.'/en', 
-      $router->prefix_url(array('locale' => 'en')));
+      $this->_Router->prefix_url(array('locale' => 'en')));
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url(array('locale' => 'ru')));
+      $this->_Router->prefix_url(array('locale' => 'ru')));
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url(array('locale' => 'ru'), true));
-    $router->destroy();
+      $this->_Router->prefix_url(array('locale' => 'ru'), true));
     
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/m/user';
-    $router = CoreRouter::singleton();
+    $this->_update_route($class_config::$base_url.'/m/user');
+    $this->_Router = CoreRouter::singleton();
     $this->assertEquals($class_config::$base_url.'/m', 
-      $router->prefix_url());
+      $this->_Router->prefix_url());
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url(array('format' => 'd')));
+      $this->_Router->prefix_url(array('format' => 'd')));
     $this->assertEquals($class_config::$base_url.'/m/en', 
-      $router->prefix_url(array('locale' => 'en')));
+      $this->_Router->prefix_url(array('locale' => 'en')));
     $this->assertEquals($class_config::$base_url.'/m', 
-      $router->prefix_url(array('locale' => 'ru')));
+      $this->_Router->prefix_url(array('locale' => 'ru')));
     $this->assertEquals($class_config::$base_url.'/m/user', 
-      $router->prefix_url(array('locale' => 'ru'), true));
+      $this->_Router->prefix_url(array('locale' => 'ru'), true));
     $this->assertEquals($class_config::$base_url.'/m/en/user', 
-      $router->prefix_url(array('locale' => 'en'), true));
-    $router->destroy();
+      $this->_Router->prefix_url(array('locale' => 'en'), true));
     
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/en/user';
-    $router = CoreRouter::singleton();
+    $this->_update_route($class_config::$base_url.'/en/user');
+    $this->_Router = CoreRouter::singleton();
     $this->assertEquals($class_config::$base_url.'/de/user', 
-      $router->prefix_url(array('locale' => 'de'), true));
-    $router->destroy();
+      $this->_Router->prefix_url(array('locale' => 'de'), true));
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/user?name=mnv';
-    $router = CoreRouter::singleton();
+    $this->_update_route($class_config::$base_url.'/user?name=mnv');
+    $this->_Router = CoreRouter::singleton();
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url());
+      $this->_Router->prefix_url());
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url(array('format' => 'd')));
+      $this->_Router->prefix_url(array('format' => 'd')));
     $this->assertEquals($class_config::$base_url.'/en', 
-      $router->prefix_url(array('locale' => 'en')));
+      $this->_Router->prefix_url(array('locale' => 'en')));
     $this->assertEquals($class_config::$base_url.'', 
-      $router->prefix_url(array('locale' => 'ru')));
+      $this->_Router->prefix_url(array('locale' => 'ru')));
     $this->assertEquals($class_config::$base_url.'/en/user', 
-      $router->prefix_url(array('locale' => 'en'), true));
-    $router->destroy();
+      $this->_Router->prefix_url(array('locale' => 'en'), true));
   }
   
   /**
@@ -131,22 +124,20 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   {
     $class_config = get_final_class_name('Config');
 
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $this->assertEquals(false, $router->url('not_exists_route'));
+    $this->_update_route();
+    
+    $this->assertEquals(false, $this->_Router->url('not_exists_route'));
     $this->assertEquals($class_config::$base_url.'/', 
-      $router->url('home'));
+      $this->_Router->url('home'));
     $this->assertEquals($class_config::$base_url.'/users/1', 
-      $router->url('user', array('id' => 1)));
+      $this->_Router->url('user', array('id' => 1)));
     $this->assertEquals($class_config::$base_url.'/m/users/1', 
-      $router->url('user', array('id' => 1), array('format' => 'm')));
+      $this->_Router->url('user', array('id' => 1), array('format' => 'm')));
     $this->assertEquals($class_config::$base_url.'/users/1', 
-      $router->url('user', array('id' => 1), array('format' => 'd')));
+      $this->_Router->url('user', array('id' => 1), array('format' => 'd')));
     $this->assertEquals($class_config::$base_url.'/m/en/users/1', 
-      $router->url('user', array('id' => 1), array('format' => 'm', 'locale' => 'en')));
-    $router->destroy();
+      $this->_Router->url('user', array('id' => 1), 
+      array('format' => 'm', 'locale' => 'en')));
   }
 
   /**
@@ -155,43 +146,24 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   public function testget_controller_name()
   {
     $class_config = get_final_class_name('Config');
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/about';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals('site', $router->get_controller_name());
-    $router->destroy();
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/users/1';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals('user', $router->get_controller_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/about');
+    $this->assertEquals('site', $this->_Router->get_controller_name());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/not_exists_url';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals(null, $router->get_controller_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/users/1');
+    $this->assertEquals('user', $this->_Router->get_controller_name());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/test';
-    $router = CoreRouter::singleton();
+    $this->_update_route($class_config::$base_url.'/not_exists_url');
+    $this->assertEquals(null, $this->_Router->get_controller_name());
+
+    //Route without controller
+    $this->_update_route($class_config::$base_url.'/test');
     $routes = array('name1' => array('pattern' => '/test'), 'name2' => array());
     foreach ($routes as $name => $route) {
-      $router->map($name, $route);
+      $this->_Router->map($name, $route);
     }
-    $router->execute();
-    $this->assertEquals('site', $router->get_controller_name());
-    $router->destroy();
-
+    $this->_Router->execute();
+    $this->assertEquals('site', $this->_Router->get_controller_name());
   }
 
   /**
@@ -201,32 +173,14 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   {
     $class_config = get_final_class_name('Config');
     
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/about';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals('Site', $router->get_controller_class_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/about');
+    $this->assertEquals('Site', $this->_Router->get_controller_class_name());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/users/1';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals('User', $router->get_controller_class_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/users/1');
+    $this->assertEquals('User', $this->_Router->get_controller_class_name());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/not_exists_url';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals(null, $router->get_controller_class_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/not_exists_url');
+    $this->assertEquals(null, $this->_Router->get_controller_class_name());
   }
 
   /**
@@ -236,32 +190,14 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   {
     $class_config = get_final_class_name('Config');
     
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/about';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals('about', $router->get_action_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/about');
+    $this->assertEquals('about', $this->_Router->get_action_name());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/users/1';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals('info', $router->get_action_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/users/1');
+    $this->assertEquals('info', $this->_Router->get_action_name());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/not_exists_url';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals(null, $router->get_action_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/not_exists_url');
+    $this->assertEquals(null, $this->_Router->get_action_name());
   }
 
   /**
@@ -272,32 +208,14 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   {
     $class_config = get_final_class_name('Config');
     
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/about';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals(array(), $router->get_params());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/about');
+    $this->assertEquals(array(), $this->_Router->get_params());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/users/1';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals(array('id' => 1), $router->get_params());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/users/1');
+    $this->assertEquals(array('id' => 1), $this->_Router->get_params());
 
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.'/not_exists_url';
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals(null, $router->get_params());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.'/not_exists_url');
+    $this->assertEquals(null, $this->_Router->get_params());
   }
 
   /**
@@ -313,14 +231,8 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
   
   private function helper_is_route_found($class_config, $url, $value)
   {
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.$url;
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals($value, $router->is_route_found());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.$url);
+    $this->assertEquals($value, $this->_Router->is_route_found());
   }
 
   /**
@@ -365,16 +277,10 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
 
   private function helper_get_current_route($class_config, $url, $value)
   {
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.$url;
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $route = $router->get_current_route();
+    $this->_update_route($class_config::$base_url.$url);
+    $route = $this->_Router->get_current_route();
     $route_array = $route ? $route->get_route() : null;
     $this->assertEquals($value, $route_array);
-    $router->destroy();
   }
 
   /**
@@ -391,14 +297,8 @@ class CoreRouterTest extends \PHPUnit_Framework_TestCase {
 
   private function helper_get_current_route_name($class_config, $url, $value)
   {
-    $_SERVER['REQUEST_URI'] = $class_config::$base_url.$url;
-    $router = CoreRouter::singleton();
-    foreach ($class_config::$routes as $name => $route) {
-      $router->map($name, $route);
-    }
-    $router->execute();
-    $this->assertEquals($value, $router->get_current_route_name());
-    $router->destroy();
+    $this->_update_route($class_config::$base_url.$url);
+    $this->assertEquals($value, $this->_Router->get_current_route_name());
   }
 
   /**

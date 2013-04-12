@@ -1,14 +1,10 @@
 <?php
 namespace IrisPHPFramework;
 
+$test = true;
 require_once 'framework/core/config.php';
-require_once 'framework/core/helpers.php';
-require_once 'framework/core/controller.php';
-require_once 'framework/core/singleton.php';
-require_once 'framework/core/application.php';
-require_once 'framework/core/view.php';
-require_once 'framework/project/controller.php';
-require_once 'framework/project/model/user.php';
+require_once 'framework/core/index.php';
+
 
 /**
  * Controller

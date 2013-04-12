@@ -1,16 +1,10 @@
 <?php
 namespace IrisPHPFramework;
 
+$test = true;
 require_once 'framework/core/config.php';
-require_once 'framework/core/helpers.php';
-require_once 'framework/core/singleton.php';
-require_once 'framework/core/router.php';
-require_once 'framework/core/view.php';
+require_once 'framework/core/index.php';
 
-require_once 'framework/core/application.php';
-require_once 'framework/core/controller.php';
-require_once 'framework/core/debug.php';
-require_once 'framework/project/model/user.php';
 
 /**
  * Configuration values
@@ -50,25 +44,14 @@ class CoreConfigTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * Solution path
-   */
-  public function test_solution_path()
-  {
-    $class_config = 'IrisPHPFramework\\CoreConfig';
-    $this->assertEquals($class_config::solution_path(),
-      str_replace('Test', '', 
-        dirname(dirname(__FILE__))).$class_config::get_slash().'solution');
-  }
-
-  /**
    * Project path
    */
-  public function test_project_path()
+  public function test_module_path()
   {
     $class_config = 'IrisPHPFramework\\CoreConfig';
-    $this->assertEquals($class_config::project_path(),
+    $this->assertEquals($class_config::module_path(),
       str_replace('Test', '', 
-        dirname(dirname(__FILE__))).$class_config::get_slash().'project');
+        dirname(dirname(__FILE__))).$class_config::get_slash().'core');
   }
 
   /**

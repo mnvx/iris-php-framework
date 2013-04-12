@@ -1,0 +1,1 @@
+java -jar /usr/local/bin/selenium-server-standalone-2.30.0.jar -interactive

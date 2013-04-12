@@ -27,47 +27,30 @@ Mobile version:
 * mod_rewrite Apache module
 
 ## Catalog structure
-<ul>
-<li><code>cache</code> - cached pages</li>
-<li><code>core</code> - core files, please, do not edit them in your project, later you can replace this folder, when new version of framework will be released</li>
-<li><code>data</code> - data files (database for sqlite and other possible files)</li>
-<li><code>locale</code> - translations, you can edit whem with Poedit editor, [more info about translations](http://php.net/manual/en/book.gettext.php "PHP gettext")</li>
-<li><code>module</code> - custom and system modules
-<ul>
-  <li><code>module_path</code> - your project files, you can edit this files as you need
-    <ul>
-    <li><code>model</code> - files for work with data</li>
-    <li><code>controller</code> - files for processing of user actions</li>
-    <li><code>view</code> - templates for pages</li>
-    </ul>
-  </li>
-  <li><code>project</code> - module, what contains your web portal project code</li>
-</ul>
-</li>
-<li><code>static</code> - css, js files, images and other static information</li>
-<li><code>temp</code> - temp files</li>
-<li><code>theme</code> - templates, page design</li>
-</ul>
-
-## Possible module kinds
-1. Overriding or/and extend methods of core
-2. Overriding or/and extend methods or some module
-3. Some pages (part of MVC structure)
-4. New class
-5. New fields
-6. Helps functions for other modules
+* cache - cached pages
+* core - core files, please, do not edit them in your project, later you can replace this folder, when new version of framework will be released
+* data - data files (database for sqlite and other possible files)
+* locale - translations, you can edit whem with Poedit editor, [more info about translations](http://php.net/manual/en/book.gettext.php "PHP gettext")
+* module - custom and system modules
+  - module_path - your project files, you can edit this files as you need
+    + model - files for work with data
+    + controller - files for processing of user actions
+    + view - templates for pages
+* static - css, js files, images and other static information
+* temp - temp files
+* theme - templates, page design
 
 ## Installation
 1. Copy files into your web files folder 
 2. Set write access for "cache" and "data" folders
-3. Edit file `module/project/config.php` (set value of `Config::$base_url`)
+3. Edit file `project/config.php` (set value of `Config::$base_url`)
 4. Installation completed
 
 ## First step: How to add your controller
-1. Edit routes: `ProjectConfig::$routes` (see standart routes for example), add needed route
-2. Add controller into `module/project/controller`
-3. Add view into `module/project/view`
-4. If necessery, add model into `module/project/model`
+1. Edit routes: `Config::$routes` (see standart routes for example), add needed route
+2. Add controller into `project/controller`
+3. Add view into `project/view`
+4. If necessery, add model into `project/model`
 
 ## License
 [MIT](http://opensource.org/licenses/mit-license.php)
@@ -90,7 +73,7 @@ Welcome: [Github](https://github.com/iriscrm/iris-php-framework "Iris PHP Framew
 
 ### Add new router
 
-Add new element into `ProjectConfig::routes` (file `module/project/config.php`)
+Add new element into `Config::routes` (file `project\config.php`)
 
     'orders' => array(
       'pattern' =>'/orders', 
@@ -100,7 +83,7 @@ Add new element into `ProjectConfig::routes` (file `module/project/config.php`)
 
 ### Add new controller
 
-Create file `module/project/controller/ordercontroller.php`
+Create file `project\controller\ordercontroller.php`
 
     <?php
     namespace IrisPHPFramework;
@@ -116,17 +99,17 @@ Create file `module/project/controller/ordercontroller.php`
         $this->login_required();
 
         $class_view = get_final_class_name('View');
-        $View = $class_view::singleton();
-        $View->assign('order_list', OrderModel::singleton()->get_list(UserModel::singleton()->login));
-        $View->set_title(_('My orders'));
-        $View->render("order", "orders");
+        $view = $class_view::singleton();
+        $view->assign('order_list', OrderModel::singleton()->get_list(UserModel::singleton()->login));
+        $view->set_title(_('My orders'));
+        $view->render("order", "orders");
       }
     }
     ?>
 
 ### Add new model
 
-Create file `module/project/model/order.php`
+Create file `project\model\order.php`
 
     <?php
     namespace IrisPHPFramework;
@@ -139,10 +122,10 @@ Create file `module/project/model/order.php`
       protected $msg;
       function get_list($client_number)
       {
-        $DB = ProjectDB::singleton();
-        $query = $DB->get_client_order_list('db', $client_number);
+        $db = DB::singleton();
+        $query = $db->get_client_order_list('db', $client_number);
         if (!$query) {
-          $this->msg = $DB->get_msg();
+          $this->msg = $db->get_msg();
           return false;
         }
         // Fetch all results and process the data if the row exists.
@@ -152,14 +135,14 @@ Create file `module/project/model/order.php`
     }
     ?>
 
-Edit `module/project/index.php`
+Edit `project\index.php`
     ...
-    require_once(ProjectConfig::module_path().'/model/order.php');
+    require_once(Config::project_path().'/model/order.php');
     ...
 
 ### Add new database query
 
-Add new method into `ProjectDB` class (file `module/project/db.php`)
+Add new method into `DB` class (file `project\db.php`)
 
     public function get_client_order_list($db_name, $client) {
       $sql = "
@@ -174,7 +157,7 @@ Add new method into `ProjectDB` class (file `module/project/db.php`)
 
 ### Add new view
 
-Create file `module/project/view/order/orders.html.php`
+Create file `project\view\order\orders.html.php`
 
     <?php namespace IrisPHPFramework; ?>
     <?php 
@@ -208,8 +191,8 @@ Create file `module/project/view/order/orders.html.php`
 
 ### Add link for this page in menu
 
-Edit files `module/project/view/site/home-d.html.php` and `module/project/view/site/home-m.html.php`
+Edit files `project\view\site\home-d.html.php` and `project\view\site\home-m.html.php`
 
     ...
-    <li><a href="<?php echo $Router->prefix_url(); ?>/orders"><?php echo _('My orders'); ?></a></li>
+    <li><a href="<?php echo $router->prefix_url(); ?>/orders"><?php echo _('My orders'); ?></a></li>
     ...

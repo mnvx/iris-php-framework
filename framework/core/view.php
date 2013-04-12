@@ -149,9 +149,9 @@ class CoreView {
    * Renders default template views, based on the model and action supplied (including
    * header and footer views).
    *
+   * @param   $path_name          
    * @param   $model              The name of the model file
    * @param   $action             When specified, name of the file ($file used as dir name)
-   * @param   $caching_enabled    (optional): When specified, name of the file ($file used as dir name)
    */
   public function render($path_name, $model, $action = null) 
   {

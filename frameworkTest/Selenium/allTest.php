@@ -32,7 +32,7 @@ class WebTest extends PHPUnit_Extensions_SeleniumTestCase
 
   protected function setUp()
   {
-    $this->setBrowser('*firefox');
+    $this->setBrowser('*googlechrome');
     $this->setBrowserUrl($this->frameworkUrl);
   }
 

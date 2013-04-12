@@ -1,6 +1,6 @@
 <?php namespace IrisPHPFramework; ?>
 <?php
-  $class_config = get_final_class_name('Config');
+  $Config = get_final_class_name('Config');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $Router->get_url_prefix_param_value('locale'); ?>">
@@ -9,8 +9,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="<?php echo _($class_config::$app_description); ?>" /> 
-  <meta name="keywords" content="<?php echo _($class_config::$app_keywords); ?>" /> 
+  <meta name="description" content="<?php echo _($Config::$app_description); ?>" /> 
+  <meta name="keywords" content="<?php echo _($Config::$app_keywords); ?>" /> 
 </head>
 
 <body>

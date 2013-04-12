@@ -10,35 +10,40 @@ namespace IrisPHPFramework;
  */
 
 
+// Configuration
+if (!isset($test)) {
+  require_once('config.php');
+}
+$slash = CoreConfig::get_slash(); // Slash symbol
+// For testing, this file including from other path
+$core_path_slash = CoreConfig::module_path().$slash;
+
 // Traits
-require_once('singleton.php');
+require_once($core_path_slash.'singleton.php');
 
 // Classes
-require_once('module.php');
-require_once('cache.php');
-require_once('view.php');
-require_once('route.php');
-require_once('router.php');
-require_once('dblist.php');
-require_once('dbinterface.php');
-require_once('controller.php');
-require_once('application.php');
+require_once($core_path_slash.'module.php');
+require_once($core_path_slash.'cache.php');
+require_once($core_path_slash.'view.php');
+require_once($core_path_slash.'route.php');
+require_once($core_path_slash.'router.php');
+require_once($core_path_slash.'dblist.php');
+require_once($core_path_slash.'dbinterface.php');
+require_once($core_path_slash.'controller.php');
+require_once($core_path_slash.'application.php');
 
-// Load helper functions and the model classes.
-require_once('helpers.php');
-
-// Configuration
-require_once('config.php');
-$slash = CoreConfig::get_slash(); // Slash symbol
+// Load helper functions
+require_once($core_path_slash.'helpers.php');
 
 // Debug mode
 if (CoreConfig::$debug) {
-  require_once('debug.php');
+  require_once($core_path_slash.'debug.php');
 }
 
 // Load modules
 $Module = CoreModule::singleton();
 $Module->add_module(CoreConfig::$module_structure, null, 'CoreConfig');
+
 // TODO: include only these chains of modules, what using in current route
 $base_module_path = CoreConfig::base_module_path();
 if (is_dir($base_module_path)) {
@@ -60,5 +65,8 @@ $Module->prepare();
 // Start application
 $application_class_name = get_final_class_name('Application');
 $Application = new $application_class_name();
+if (!isset($test)) {
+  $Application->execute();
+}
 
 ?>

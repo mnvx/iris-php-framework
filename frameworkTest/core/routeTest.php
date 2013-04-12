@@ -1,7 +1,10 @@
 <?php
 namespace IrisPHPFramework;
 
-require_once 'framework/core/route.php';
+$test = true;
+require_once 'framework/core/config.php';
+require_once 'framework/core/index.php';
+
 
 /**
  * Route

@@ -2,7 +2,7 @@
 namespace IrisPHPFramework;
 
 require_once 'framework/core/config.php';
-require_once 'framework/project/config.php';
+require_once 'framework/module/project/config.php';
 require_once 'framework/core/helpers.php';
 require_once 'framework/core/cache.php';
 

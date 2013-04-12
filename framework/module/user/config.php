@@ -78,6 +78,24 @@ class UserConfig extends CoreConfig {
     return __DIR__;
   }
 
+  public static function init() {
+    $userdb_class_name = get_final_class_name('UserDB');
+    $UserDB = $userdb_class_name::singleton();
+    $UserDB->set_db_list();
+
+    // Check the database structure
+    $UserDB->check_db('db');
+
+    // User model
+    $UserModel = UserModel::singleton();
+
+    // View
+    $view_class_name = get_final_class_name('View');
+    $View = $view_class_name::singleton();
+    $View->assign('user_name', $UserModel->get_name());
+    $View->assign('user_login', $UserModel->get_login());
+    $View->register_custom_object('user', $UserModel);
+  }
 }
 
 ?>

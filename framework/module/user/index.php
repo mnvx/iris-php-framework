@@ -21,6 +21,7 @@ require_once($module_path.$slash.'db.php');
 
 // Register current module
 $Module = CoreModule::singleton();
+/*
 $Module->add_module(UserConfig::$module_structure, 
   basename($module_path), 'UserConfig', function() {
     $userdb_class_name = get_final_class_name('UserDB');
@@ -40,5 +41,9 @@ $Module->add_module(UserConfig::$module_structure,
     $View->assign('user_login', $UserModel->get_login());
     $View->register_custom_object('user', $UserModel);
   });
+*/
+
+$Module->add_module(UserConfig::$module_structure, 
+  basename($module_path), 'UserConfig', "IrisPHPFramework\\UserConfig::init");
 
 ?>

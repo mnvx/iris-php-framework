@@ -2,10 +2,11 @@
 namespace IrisPHPFramework;
 
 require_once 'framework/core/singleton.php';
-require_once 'framework/core/db.php';
+require_once 'framework/core/dbinterface.php';
+require_once 'framework/core/dblist.php';
 require_once 'framework/core/config.php';
 
-require_once 'framework/project/config.php';
+require_once 'framework/module/project/config.php';
 
 /**
  * CoreDB Class
