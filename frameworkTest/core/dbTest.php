@@ -1,12 +1,9 @@
 <?php
 namespace IrisPHPFramework;
 
-require_once 'framework/core/singleton.php';
-require_once 'framework/core/dbinterface.php';
-require_once 'framework/core/dblist.php';
+$test = true;
 require_once 'framework/core/config.php';
-
-require_once 'framework/module/project/config.php';
+require_once 'framework/core/index.php';
 
 /**
  * CoreDB Class
@@ -23,20 +20,22 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
    */
   public function test_get_db_connection()
   {
-    $db = CoreDB::singleton();
+    $Config = get_final_class_name('Config');
+
+    $db = CoreDBList::singleton();
 
     $db_connect = new \PDO(
-      str_replace('[#base_path#]', Config::base_path(), Config::$db['dsn']), 
-      Config::$db['username'], 
-      Config::$db['password'], 
-      Config::$db['driver_options']
+      str_replace('[#base_path#]', $Config::base_path(), $Config::$db['dsn']), 
+      $Config::$db['username'], 
+      $Config::$db['password'], 
+      $Config::$db['driver_options']
     );
     $db_connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
     $db->offsetSet('db', $db_connect);
     $this->assertEquals($db_connect, $db->get_db_connection('db'));
     $this->assertEquals(null, $db->get_db_connection('not_exists_db'));
-    $this->assertEquals('IrisPHPFramework\\CoreDB::get_db_connection: '.
+    $this->assertEquals('IrisPHPFramework\\CoreDBList::get_db_connection: '.
       _('Database with index').' "not_exists_db" '._('was not found').'.', 
       $db->get_msg());
     $this->assertEquals($db_connect, $db->get_db_connection());
@@ -44,13 +43,13 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
     $db->offsetSet('db2', $db_connect);
     $this->assertEquals(null, $db->get_db_connection());
     $this->assertEquals(
-      'Database info was not found in query IrisPHPFramework\\CoreDB::get_db_connection', 
+      'Database info was not found in query IrisPHPFramework\\CoreDBList::get_db_connection', 
       $db->get_msg());
     $this->assertEquals($db_connect, $db->get_db_connection('db'));
     $this->assertEquals($db_connect, $db->get_db_connection('db2'));
 
     $db->destroy();
-    $db = CoreDB::singleton();
+    $db = CoreDBList::singleton();
   }
   
   /**
@@ -58,18 +57,21 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
    */
   public function test_run_query()
   {
-    $db = CoreDB::singleton();
+    $Config = get_final_class_name('Config');
+
+    $db = CoreDBList::singleton();
 
     $this->assertEquals(null, 
       $db->run_query('select name from users where id=:id', array('id' => 1)));
-    $this->assertEquals(_('Database was not found').': ""; IrisPHPFramework\\CoreDB::run_query', 
+    $this->assertEquals(_('Database was not found').
+      ': ""; IrisPHPFramework\\CoreDBList::run_query', 
       $db->get_msg());
 
     $db_connect = new \PDO(
-      str_replace('[#base_path#]', Config::base_path(), Config::$db['dsn']), 
-      Config::$db['username'], 
-      Config::$db['password'], 
-      Config::$db['driver_options']
+      str_replace('[#base_path#]', $Config::base_path(), $Config::$db['dsn']), 
+      $Config::$db['username'], 
+      $Config::$db['password'], 
+      $Config::$db['driver_options']
     );
     $db_connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -78,7 +80,7 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
       $db->run_query('select name from users where id=:id', array('id' => 1))->fetchAll());
 
     $db->destroy();
-    $db = CoreDB::singleton();
+    $db = CoreDBList::singleton();
   }
   
   /**
@@ -86,13 +88,15 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
    */
   public function test_exception_execution()
   {
-    $db = CoreDB::singleton();
+    $Config = get_final_class_name('Config');
+
+    $db = CoreDBList::singleton();
 
     $db_connect = new \PDO(
-      str_replace('[#base_path#]', Config::base_path(), Config::$db['dsn']), 
-      Config::$db['username'], 
-      Config::$db['password'], 
-      Config::$db['driver_options']
+      str_replace('[#base_path#]', $Config::base_path(), $Config::$db['dsn']), 
+      $Config::$db['username'], 
+      $Config::$db['password'], 
+      $Config::$db['driver_options']
     );
     $db_connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -100,7 +104,7 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
     $db->run_query('select name from users where id=:id', array('id1' => 1));
 
     $db->destroy();
-    $db = CoreDB::singleton();
+    $db = CoreDBList::singleton();
   }
   
   /**
@@ -108,13 +112,15 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
    */
   public function test_exception_prepare()
   {
-    $db = CoreDB::singleton();
+    $Config = get_final_class_name('Config');
+
+    $db = CoreDBList::singleton();
 
     $db_connect = new \PDO(
-      str_replace('[#base_path#]', Config::base_path(), Config::$db['dsn']), 
-      Config::$db['username'], 
-      Config::$db['password'], 
-      Config::$db['driver_options']
+      str_replace('[#base_path#]', $Config::base_path(), $Config::$db['dsn']), 
+      $Config::$db['username'], 
+      $Config::$db['password'], 
+      $Config::$db['driver_options']
     );
     $db_connect->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
@@ -122,7 +128,7 @@ class CoreDBTest extends \PHPUnit_Framework_TestCase {
     $db->run_query('select1 name from users where id=:id', array('id' => 1));
 
     $db->destroy();
-    $db = CoreDB::singleton();
+    $db = CoreDBList::singleton();
   }
   
   

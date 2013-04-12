@@ -30,15 +30,15 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
   public function test_register_custom_object()
   {
     $class_view = get_final_class_name('View');
-    $view = $class_view::singleton();
+    $View = $class_view::singleton();
     
     $object = 'testobj';
-    $view->register_custom_object('testname', $object);
+    $View->register_custom_object('testname', $object);
     
-    $this->assertEquals('testobj', $view->get_custom_object('testname'));
-    $this->assertNull($view->get_custom_object('testname_not_exists'));
+    $this->assertEquals('testobj', $View->get_custom_object('testname'));
+    $this->assertNull($View->get_custom_object('testname_not_exists'));
     
-    $view->destroy();
+    $View->destroy();
   }
 
   /**
@@ -47,18 +47,18 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
   public function test_get_view_file_name() 
   {
     $class_view = get_final_class_name('View');
-    $class_config = get_final_class_name('Config');
+    $Config = get_final_class_name('Config');
 
-    $view = $class_view::singleton();
+    $View = $class_view::singleton();
     
-    $this->assertNull($view->get_view_file_name('model', ''));
-    $this->assertEquals(CoreConfig::module_path() . "/view/layout-d.html.php", 
-      $view->get_view_file_name('project', 'site'));
-    $this->assertEquals($class_config::module_path() . "/view/site/about.html.php", 
-      $view->get_view_file_name('site', 'about'));
-    $this->assertNull($view->get_view_file_name('site'));
+    $this->assertNull($View->get_view_file_name('model', ''));
+    $this->assertEquals($Config::module_path() . "/view/site/home-d.html.php", 
+      $View->get_view_file_name('project', 'site', 'home'));
+    $this->assertEquals($Config::module_path() . "/view/site/about.html.php", 
+      $View->get_view_file_name('project', 'site', 'about'));
+    $this->assertNull($View->get_view_file_name('project', 'site'));
     
-    $view->destroy();
+    $View->destroy();
   }
 
   /**
@@ -68,32 +68,32 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
   {
     ob_start();
     $class_view = get_final_class_name('View');
-    $class_config = get_final_class_name('Config');
+    $Config = get_final_class_name('Config');
 
-    $view = $class_view::singleton();
+    $View = $class_view::singleton();
 
     $user_model = UserModel::singleton();
-    $view->register_custom_object('user', $user_model);
+    $View->register_custom_object('user', $user_model);
 
-    $view->render('model', '');
-    $this->assertNull($view->get_inner_file_name());
+    $View->render('model', '');
+    $this->assertNull($View->get_inner_file_name());
 
-    $view->render('project', 'site');
-    $this->assertEquals($class_config::module_path() . "/view/layout-d.html.php", 
-      $view->get_inner_file_name());
+    $View->render('project', 'site', 'home');
+    $this->assertEquals($Config::module_path() . "/view/site/home-d.html.php", 
+      $View->get_inner_file_name());
 
-    $view->render('site', 'about');
-    $this->assertEquals($class_config::module_path() . "/view/site/about.html.php", 
-      $view->get_inner_file_name());
+    $View->render('site', 'about');
+    $this->assertEquals($Config::module_path() . "/view/site/about.html.php", 
+      $View->get_inner_file_name());
 
-    $view->render('site');
-    $this->assertNull($view->get_inner_file_name());
+    $View->render('site');
+    $this->assertNull($View->get_inner_file_name());
 
-    $view->render('not_exists', 'about');
-    $this->assertEquals($class_config::module_path() . "/view/site/error.html.php", 
-      $view->get_inner_file_name());
+    $View->render('not_exists', 'about');
+    $this->assertEquals($Config::module_path() . "/view/site/error.html.php", 
+      $View->get_inner_file_name());
 
-    $view->destroy();
+    $View->destroy();
     ob_clean();
   }
 
@@ -103,14 +103,14 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
   public function test_assign() 
   {
     $class_view = get_final_class_name('View');
-    $view = $class_view::singleton();
+    $View = $class_view::singleton();
 
     $object = 'testobj';
-    $view->assign('testname', $object);
-    $this->assertNull($view->get('not_exists'));
-    $this->assertEquals($object, $view->get('testname'));
+    $View->assign('testname', $object);
+    $this->assertNull($View->get('not_exists'));
+    $this->assertEquals($object, $View->get('testname'));
 
-    $view->destroy();
+    $View->destroy();
   }
 
   /**
@@ -119,15 +119,15 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
   public function test_set_title() 
   {
     $class_view = get_final_class_name('View');
-    $view = $class_view::singleton();
+    $View = $class_view::singleton();
 
-    $view->set_title('testtitle');
-    $this->assertEquals('testtitle - Iris PHP Framework', $view->page_title());
+    $View->set_title('testtitle');
+    $this->assertEquals('testtitle - Iris PHP Framework', $View->page_title());
 
-    $view->set_title('');
-    $this->assertEquals('Iris PHP Framework', $view->page_title());
+    $View->set_title('');
+    $this->assertEquals('Iris PHP Framework', $View->page_title());
 
-    $view->destroy();
+    $View->destroy();
   }
 
   /**
@@ -136,23 +136,23 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
   public function test_set_msg() 
   {
     $class_view = get_final_class_name('View');
-    $view = $class_view::singleton();
+    $View = $class_view::singleton();
 
-    $view->set_msg('test_msg');
+    $View->set_msg('test_msg');
     $this->assertEquals("<div class=\"alert alert-error\">test_msg</div>\n", 
-      $view->get_msg());
+      $View->get_msg());
 
-    $view->set_msg('test_msg', true);
+    $View->set_msg('test_msg', true);
     $this->assertEquals("<div class=\"alert alert-success\">test_msg</div>\n", 
-      $view->get_msg());
+      $View->get_msg());
 
-    $view->set_msg(null);
-    $this->assertNull($view->get_msg());
+    $View->set_msg(null);
+    $this->assertNull($View->get_msg());
 
-    $view->set_msg(null, true);
-    $this->assertNull($view->get_msg());
+    $View->set_msg(null, true);
+    $this->assertNull($View->get_msg());
 
-    $view->destroy();
+    $View->destroy();
   }
 
   
