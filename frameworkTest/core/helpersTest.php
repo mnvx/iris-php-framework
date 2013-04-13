@@ -44,6 +44,17 @@ class HelpersTest extends \PHPUnit_Framework_TestCase {
   public function test_hash_case()
   {
     $this->assertEquals(hash_case(1), 'c4ca4238a0b923820dcc509a6f75849b');
+
+    $class_config = get_final_class_name('Config');
+    $case = $class_config::$hash_lowercase;
+
+    $class_config::$hash_lowercase = true;
+    $this->assertEquals('c4ca4238a0b923820dcc509a6f75849b', hash_case(1));
+
+    $class_config::$hash_lowercase = false;
+    $this->assertEquals('C4CA4238A0B923820DCC509A6F75849B', hash_case(1));
+
+    $class_config::$hash_lowercase = $case;
   }
 
 }

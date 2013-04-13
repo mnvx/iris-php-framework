@@ -42,10 +42,10 @@ function hash_case($value)
   $Config = get_final_class_name('Config');
   $hash = hash($Config::$hash_function, $value);
   if ($Config::$hash_lowercase === true) {
-    $hash = strtoupper($hash);
+    $hash = strtolower($hash);
   }
   elseif ($Config::$hash_lowercase === false) {
-    $hash = strtolower($hash);
+    $hash = strtoupper($hash);
   }
   return $hash;
 }
