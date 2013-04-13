@@ -74,6 +74,7 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
 
     $user_model = UserModel::singleton();
     $View->register_custom_object('user', $user_model);
+    $View->register_custom_object('Config', $Config);
 
     $View->render('model', '');
     $this->assertNull($View->get_inner_file_name());
@@ -82,15 +83,15 @@ class CoreViewTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals($Config::module_path() . "/view/site/home-d.html.php", 
       $View->get_inner_file_name());
 
-    $View->render('site', 'about');
+    $View->render('project', 'site', 'about');
     $this->assertEquals($Config::module_path() . "/view/site/about.html.php", 
       $View->get_inner_file_name());
 
-    $View->render('site');
+    $View->render('project', 'site');
     $this->assertNull($View->get_inner_file_name());
 
-    $View->render('not_exists', 'about');
-    $this->assertEquals($Config::module_path() . "/view/site/error.html.php", 
+    $View->render('project', 'not_exists', 'about');
+    $this->assertEquals(null, 
       $View->get_inner_file_name());
 
     $View->destroy();

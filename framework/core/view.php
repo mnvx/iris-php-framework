@@ -114,7 +114,7 @@ class CoreView {
    * @param   $action     When specified, name of the file ($file used as dir name).
    *                      This param is optional.
    */
-  protected function _load($module_path, $file, $action = null) 
+  protected function _load($file, $action = null) 
   {
     $class_router = get_final_class_name('Router');
     $class_debug = get_final_class_name('Debug');
@@ -134,7 +134,8 @@ class CoreView {
     $slash = $class_config::get_slash();
     $format = $Router->get_url_prefix_param_value('format');
     $theme = $class_config::$theme;
-    $file = $class_config::base_path().$slash.'theme'.$slash.$theme.$slash.$file.'-'.$format.'.html.php';
+    $file = $class_config::base_path().$slash.'theme'.$slash.$theme.$slash.
+      $file.'-'.$format.'.html.php';
 
     // Load the view file only if it exists.
     if (file_exists($file) && file_exists($this->_inner_file) && $this->_inner_file != $file) { 
@@ -156,7 +157,7 @@ class CoreView {
   public function render($path_name, $model, $action = null) 
   {
     $this->_set_view_params($path_name, $model, $action);
-    $this->_load($path_name, "layout");
+    $this->_load("layout");
   }
 
   /**
